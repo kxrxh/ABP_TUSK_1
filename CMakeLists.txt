@@ -19,6 +19,9 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        table/table.h
+        table/table.cpp
+        table/ui_table.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

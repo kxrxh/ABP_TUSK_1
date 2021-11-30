@@ -1,22 +1,21 @@
 #ifndef TABLE_H
 #define TABLE_H
 
-#include <QMainWindow>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Table; }
 QT_END_NAMESPACE
 
-class Table : public QMainWindow
-{
+class Table : public QWidget {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    Table(QWidget *parent = nullptr);
+    ~Table();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::Table *ui;
 };
 #endif
 
