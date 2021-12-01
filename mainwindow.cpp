@@ -1,14 +1,19 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include <QLabel>
+#include "databaselib.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->tabWidget->setTabText(0, "Приветствие");
-    ui->tabWidget->setTabText(1, "Клиенты");
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("main.db");
+    DataBaseLib dbl(db);
+    bool status = dbl.connect_to_base();
+    if (status) {
+        //...
+    }
 }
 
 MainWindow::~MainWindow()
