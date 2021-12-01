@@ -4,6 +4,7 @@
 #include <QtSql/QSqlQuery>
 #include <QList>
 #include <vector>
+#include <QDebug>
 
 class DataBaseLib
 {
