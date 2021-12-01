@@ -4,27 +4,25 @@
 Table::Table(QWidget *parent) 
     : QWidget(parent), ui(new Ui::Table) 
 {
+    ui->setupUi(this);
 }
 
 void Table::setData(std::vector<std::vector<QString>> data) {
-    auto *layout = new QVBoxLayout(this);
-    this->setLayout(layout);
     if (data.size() > 0) {
-        tableWidget = new QTableWidget(data.size(), data[0].size(), this);
+        ui->tableWidget->setColumnCount(data[0].size());
+        ui->tableWidget->setRowCount(data.size());
         for (int row = 0; row < data.size(); ++row) {
             for (int col = 0; col < data[0].size(); ++col) {
-                tableWidget->setCellWidget(row, col, new QLabel(data[row][col]));
+                ui->tableWidget->setCellWidget(row, col, new QLabel(data[row][col]));
             }
         }
     } else {
-        tableWidget = new QTableWidget(1, 1, this);
+        ui->tableWidget->setColumnCount(0);
     }
-    layout->addWidget(tableWidget);
-
 }
 
 void Table::setTitles(QStringList titles) {
-        tableWidget->setHorizontalHeaderLabels(titles);
+    ui->tableWidget->setHorizontalHeaderLabels(titles);
 }
 
 Table::~Table() {

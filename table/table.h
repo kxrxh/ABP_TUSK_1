@@ -15,7 +15,6 @@ class Table : public QWidget {
 public:
     Table(QWidget *parent = nullptr);
     ~Table();
-    QTableWidget *tableWidget;
     void setData(std::vector<std::vector<QString>> data);
     void setTitles(QStringList titles);
 

@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QString>
 #include <QButtonGroup>
+#include <QComboBox>
 #include "table/table.h"
 #include "databaselib.h"
 
@@ -24,10 +25,15 @@ public:
     DataBaseLib *dbl;
 
     QString currentTable;
+    QComboBox *comboBox;
     void openTable();
+public slots:
+    void changeTable(int index);
 
 private:
-    std::pair<QString, QString> *tables[13];
+    std::vector<QString> tables_en;
+    std::vector<QString> tables_ru;
+    bool exists = false;
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

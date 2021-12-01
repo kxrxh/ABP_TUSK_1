@@ -18,9 +18,6 @@
     <item>
      <layout class="QVBoxLayout" name="mainLayout"/>
     </item>
-    <item>
-     <widget class="QComboBox" name="currentTableWidget"/>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
