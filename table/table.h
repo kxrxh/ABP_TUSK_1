@@ -2,6 +2,7 @@
 #define TABLE_H
 
 #include <QWidget>
+#include <QTableWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Table; }
@@ -13,6 +14,8 @@ class Table : public QWidget {
 public:
     Table(QWidget *parent = nullptr);
     ~Table();
+    QTableWidget *tableWidget;
+    void setData(std::vector<std::vector<QString>>);
 
 private:
     Ui::Table *ui;

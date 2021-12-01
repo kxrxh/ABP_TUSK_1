@@ -1,4 +1,5 @@
 #include "databaselib.h"
+#include <QDebug>
 
 bool DataBaseLib::connect_to_base() {
     db.setDatabaseName("main.db");
@@ -9,7 +10,7 @@ QList<QString> DataBaseLib::get_database_tables() {
     return db.tables(QSql::Tables);
 }
 
-QString DataBaseLib::db_select(QString _request) {
+std::vector<std::vector<QString>> DataBaseLib::db_select(QString _request) {
   QSqlQuery query(db);
   query.exec(_request);
   std::vector<std::vector<QString>> all_rows_vector;
@@ -21,5 +22,10 @@ QString DataBaseLib::db_select(QString _request) {
       all_rows_vector.push_back(row_vector);
   }
   qDebug() << all_rows_vector[0];
-  return "HELLO";
+  return all_rows_vector;
+}
+
+std::vector<std::vector<QString>> DataBaseLib::get_table(QString table_name) {
+    std::vector<std::vector<QString>> data;
+    return db_select("SELECT * FROM " + table_name);
 }
