@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
+#include <QString>
+#include <QButtonGroup>
 #include "table/table.h"
 #include "databaselib.h"
 
@@ -16,10 +19,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
     Table *table;
     DataBaseLib *dbl;
 
+    QString currentTable;
+    void openTable();
+
 private:
+    std::pair<QString, QString> *tables[13];
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

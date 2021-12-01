@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
@@ -25,6 +26,7 @@ public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *mainLayout;
+    QComboBox *currentTableWidget;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -32,7 +34,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(800, 600);
+        MainWindow->resize(1428, 600);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout_2 = new QVBoxLayout(centralwidget);
@@ -42,10 +44,15 @@ public:
 
         verticalLayout_2->addLayout(mainLayout);
 
+        currentTableWidget = new QComboBox(centralwidget);
+        currentTableWidget->setObjectName(QString::fromUtf8("currentTableWidget"));
+
+        verticalLayout_2->addWidget(currentTableWidget);
+
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 31));
+        menubar->setGeometry(QRect(0, 0, 1428, 31));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
