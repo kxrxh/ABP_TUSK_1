@@ -15,7 +15,7 @@ public:
     Table(QWidget *parent = nullptr);
     ~Table();
     QTableWidget *tableWidget;
-    void setData(std::vector<std::vector<QString>>);
+    void setData(std::vector<std::vector<QString>> data);
 
 private:
     Ui::Table *ui;

@@ -19,6 +19,8 @@ set(PROJECT_SOURCES
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    table/table.h
+    table/table.cpp
     databaselib.h
     databaselib.cpp
     ui_mainwindow.h

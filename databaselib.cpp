@@ -21,7 +21,6 @@ std::vector<std::vector<QString>> DataBaseLib::db_select(QString _request) {
       }
       all_rows_vector.push_back(row_vector);
   }
-  qDebug() << all_rows_vector[0];
   return all_rows_vector;
 }
 
