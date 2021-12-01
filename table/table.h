@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTableWidget>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Table; }
@@ -16,6 +17,7 @@ public:
     ~Table();
     QTableWidget *tableWidget;
     void setData(std::vector<std::vector<QString>> data);
+    void setTitles(QStringList titles);
 
 private:
     Ui::Table *ui;

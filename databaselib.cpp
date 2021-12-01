@@ -31,6 +31,7 @@ std::vector<std::vector<QString>> DataBaseLib::db_select(QString _request) {
       }
       all_rows_vector.push_back(row_vector);
   }
+  qDebug() << "G ";
   qDebug() << all_rows_vector << table_columns;
   return all_rows_vector;
 }
@@ -46,6 +47,13 @@ void DataBaseLib::delete_row_by_id(QString table_name, int id) {
     query_delete.exec();
 }
 
-
-
-
+QStringList DataBaseLib::get_titles(QString table_name) {
+    QStringList titles;
+    QSqlQuery query(db);
+    query.exec("SELECT * FROM " + table_name);
+    QSqlRecord rec = query.record();
+    for(int i = 0; i < rec.count(); i++) {
+        titles << rec.fieldName(i);
+    }
+    return titles;
+}
