@@ -35,11 +35,17 @@ std::vector<std::vector<QString>> DataBaseLib::db_select(QString _request) {
   return all_rows_vector;
 }
 
+std::vector<std::vector<QString>> DataBaseLib::get_table(QString table_name) {
+    return DataBaseLib::db_select("SELECT * FROM " + table_name);
+}
+
 void DataBaseLib::delete_row_by_id(QString table_name, int id) {
     QSqlQuery query_delete(db);
     query_delete.prepare("DELETE FROM " + table_name +
                          " WHERE id = " + QString::number(id));
     query_delete.exec();
 }
+
+
 
 
