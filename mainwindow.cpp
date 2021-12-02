@@ -48,11 +48,11 @@ MainWindow::MainWindow(QWidget *parent)
     // currentTable = QString("nomenclature_type");
     table = new QSqlRelationalTableModel(this);
     openTable();
+    connect(ui->addButton, SIGNAL(clicked()), SLOT(addRow()),
+            Qt::UniqueConnection);
+    connect(ui->submitButton, SIGNAL(clicked()), SLOT(accetpAll()),
+            Qt::UniqueConnection);
     // changeTable(0);
-    std::vector<QString> values;
-    for (int i = 0; i < 3; ++i) {
-        values.push_back("213");
-    }
     // dbl->insert_to_table("users", dbl->get_titles("users"), values);
     if (!status) {
         // TODO Error
@@ -111,4 +111,14 @@ void MainWindow::changeTable(int index) {
     currentTable = tables_en[index];
     currentTableIndex = index;
     openTable();
+}
+
+
+void MainWindow::addRow() {
+    int row = table->rowCount();
+    table->insertRow(row);
+}
+
+void MainWindow::accetpAll() {
+    table->submitAll();
 }

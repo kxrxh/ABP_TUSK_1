@@ -33,7 +33,8 @@ public:
     void setupTable();
 public slots:
     void changeTable(int index);
-
+    void addRow();
+    void accetpAll();
 private:
     std::vector<QString> tables_en;
     std::vector<QString> tables_ru;
