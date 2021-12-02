@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     // setup UI
     ui->setupUi(this);
-    ui->horizontalLayout->addWidget(comboBox);
+    ui->verticalLayout->addWidget(comboBox);
     connect(comboBox, SIGNAL(currentIndexChanged(int)), SLOT(changeTable(int)));
     // setup database
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");

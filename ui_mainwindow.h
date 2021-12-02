@@ -31,7 +31,9 @@ public:
     QVBoxLayout *mainLayout;
     QTableView *tableView;
     QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout;
     QPushButton *addButton;
+    QPushButton *submitButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -39,7 +41,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1428, 600);
+        MainWindow->resize(900, 600);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout_2 = new QVBoxLayout(centralwidget);
@@ -56,10 +58,20 @@ public:
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+
+        horizontalLayout->addLayout(verticalLayout);
+
         addButton = new QPushButton(centralwidget);
         addButton->setObjectName(QString::fromUtf8("addButton"));
 
         horizontalLayout->addWidget(addButton);
+
+        submitButton = new QPushButton(centralwidget);
+        submitButton->setObjectName(QString::fromUtf8("submitButton"));
+
+        horizontalLayout->addWidget(submitButton);
 
 
         verticalLayout_2->addLayout(horizontalLayout);
@@ -67,7 +79,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1428, 31));
+        menubar->setGeometry(QRect(0, 0, 900, 31));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -82,6 +94,7 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "\320\220\320\264\320\274\320\270\320\275\320\270\321\201\321\202\321\200\320\260\321\202\320\276\321\200", nullptr));
         addButton->setText(QCoreApplication::translate("MainWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214", nullptr));
+        submitButton->setText(QCoreApplication::translate("MainWindow", "\320\237\321\200\320\270\320\274\320\265\320\275\320\270\321\202\321\214", nullptr));
     } // retranslateUi
 
 };
