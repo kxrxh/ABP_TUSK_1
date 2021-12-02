@@ -65,7 +65,11 @@ MainWindow::~MainWindow() {
 void MainWindow::openTable() {
     table->setTable(currentTable);
     table->setEditStrategy(QSqlTableModel::OnFieldChange);
+    table->setRelation(6, QSqlRelation("statuses", "id", "title")); // <-- ССЫЛКА
     table->select();
+
+
+
 
     // table->setTitles(dbl->get_titles(currentTable));
     ui->tableView->setModel(table);
