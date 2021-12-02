@@ -32,7 +32,9 @@ public:
     QString currentTable = "users";
     int currentTableIndex = 0;
     QComboBox *comboBox;
+    int sortedIndex = 0;
     void openTable();
+    void updateTable();
 
     void setupTable();
 public slots:
@@ -40,9 +42,12 @@ public slots:
     void addRow();
     void acceptAll();
     void deleteCurrentRow();
+    void sortBy(int index);
 private:
     std::vector<QString> tables_en;
     std::vector<QString> tables_ru;
+    int sortOrder = 0;
+    
     bool exists = false;
     Ui::MainWindow *ui;
    void keyPressEvent(QKeyEvent *event);

@@ -45,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     bool status = dbl->connect_to_base();
     // currentTable = QString("nomenclature_type");
     table = new QSqlRelationalTableModel(this);
+    connect(ui->tableView->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(sortBy(int)));
     openTable();
     connect(ui->addButton, SIGNAL(clicked()), SLOT(addRow()),
             Qt::UniqueConnection);
@@ -63,6 +64,10 @@ MainWindow::~MainWindow() {
 
 void MainWindow::openTable() {
     table->setTable(currentTable);
+    updateTable();
+}
+
+void MainWindow::updateTable() {
     table->setEditStrategy(QSqlTableModel::OnFieldChange);
     setupTable();
     table->select();
@@ -71,8 +76,11 @@ void MainWindow::openTable() {
     ui->tableView->setModel(table);
     ui->tableView->resizeColumnsToContents();
     ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked);
+    if (sortOrder) 
+        ui->tableView->sortByColumn(sortedIndex, Qt::DescendingOrder);
+    else
+        ui->tableView->sortByColumn(sortedIndex, Qt::AscendingOrder);
 
-    // ui->mainLayout->addWidget(table);
 }
 
 void MainWindow::setupTable() {
@@ -132,4 +140,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Delete) {
         deleteCurrentRow();
     }
+}
+
+void MainWindow::sortBy(int index) {
+    if (sortedIndex == index) {
+        sortOrder = (sortOrder + 1) % 2;
+    }
+    sortedIndex = index;
+    updateTable();
 }
