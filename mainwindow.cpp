@@ -63,9 +63,14 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::openTable() {
-    table->setTable("users");
+    table->setTable(currentTable);
+    table->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    table->select();
+
     // table->setTitles(dbl->get_titles(currentTable));
     ui->tableView->setModel(table);
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     // ui->mainLayout->addWidget(table);
 }
 

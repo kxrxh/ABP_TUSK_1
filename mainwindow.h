@@ -26,7 +26,7 @@ public:
     QSqlRelationalTableModel  *table;
     DataBaseLib *dbl;
 
-    QString currentTable;
+    QString currentTable = "users";
     QComboBox *comboBox;
     void openTable();
 public slots:
