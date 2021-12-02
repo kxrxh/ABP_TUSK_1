@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "databaselib.h"
-#include "./delegators/datedelegator.h"
-#include <QSqlRelationalDelegate>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -50,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     openTable();
     connect(ui->addButton, SIGNAL(clicked()), SLOT(addRow()),
             Qt::UniqueConnection);
-    connect(ui->submitButton, SIGNAL(clicked()), SLOT(accetpAll()),
+    connect(ui->submitButton, SIGNAL(clicked()), SLOT(acceptAll()),
             Qt::UniqueConnection);
     // changeTable(0);
     // dbl->insert_to_table("users", dbl->get_titles("users"), values);
@@ -113,12 +111,25 @@ void MainWindow::changeTable(int index) {
     openTable();
 }
 
-
 void MainWindow::addRow() {
     int row = table->rowCount();
     table->insertRow(row);
 }
 
-void MainWindow::accetpAll() {
+void MainWindow::acceptAll() {
     table->submitAll();
+}
+
+void MainWindow::deleteCurrentRow() {
+    QItemSelectionModel *select = ui->tableView->selectionModel();
+    for (const QModelIndex &selected : select->selectedRows()) {
+        table->removeRow(selected.row());
+    }
+    table->select();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if (event->key() == Qt::Key_Delete) {
+        deleteCurrentRow();
+    }
 }

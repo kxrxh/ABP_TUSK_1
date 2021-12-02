@@ -9,6 +9,10 @@
 #include <QSqlRelationalTableModel>
 #include <QTableView>
 #include "databaselib.h"
+#include <QtGui/QKeyEvent>
+#include <QSqlRelationalDelegate>
+#include "./delegators/datedelegator.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,11 +38,13 @@ public:
 public slots:
     void changeTable(int index);
     void addRow();
-    void accetpAll();
+    void acceptAll();
+    void deleteCurrentRow();
 private:
     std::vector<QString> tables_en;
     std::vector<QString> tables_ru;
     bool exists = false;
     Ui::MainWindow *ui;
+   void keyPressEvent(QKeyEvent *event);
 };
 #endif // MAINWINDOW_H
