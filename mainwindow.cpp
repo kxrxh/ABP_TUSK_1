@@ -3,6 +3,7 @@
 #include "databaselib.h"
 #include "table/table.h"
 #include <iostream>
+#include <QSqlRelationalDelegate>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -38,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     // setup UI
     ui->setupUi(this);
-    ui->centralwidget->layout()->addWidget(comboBox);
+    ui->verticalLayout->addWidget(comboBox);
     connect(comboBox, SIGNAL(currentIndexChanged(int)), SLOT(changeTable(int)));
     // setup database
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
@@ -82,14 +83,23 @@ void MainWindow::setupTable() {
     {
     case 0:
         table->setRelation(6, QSqlRelation("statuses", "id", "title")); // <-- Link
+        ui->tableView->setItemDelegateForColumn(6, new QSqlRelationalDelegate());
         break;
     case 1:
         table->setRelation(2, QSqlRelation("nomenclature_type", "id", "title"));
+        ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
         table->setRelation(4, QSqlRelation("birth", "id", "title"));
+        ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
         table->setRelation(5, QSqlRelation("died", "id", "title"));
+        ui->tableView->setItemDelegateForColumn(5, new QSqlRelationalDelegate());
+        break;
+    case 2:
+        table->setRelation(1, QSqlRelation("nomenclature_type", "id", "title"));
+        ui->tableView->setItemDelegateForColumn(1, new QSqlRelationalDelegate());
         break;
     case 4:
         table->setRelation(7, QSqlRelation("positions", "id", "title"));
+        ui->tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
         break;
     
     default:

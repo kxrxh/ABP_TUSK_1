@@ -26,6 +26,7 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout_2;
+    QVBoxLayout *verticalLayout;
     QVBoxLayout *mainLayout;
     QTableView *tableView;
     QMenuBar *menubar;
@@ -40,6 +41,11 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout_2 = new QVBoxLayout(centralwidget);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+
+        verticalLayout_2->addLayout(verticalLayout);
+
         mainLayout = new QVBoxLayout();
         mainLayout->setObjectName(QString::fromUtf8("mainLayout"));
         tableView = new QTableView(centralwidget);
