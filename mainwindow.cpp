@@ -65,20 +65,34 @@ MainWindow::~MainWindow() {
 void MainWindow::openTable() {
     table->setTable(currentTable);
     table->setEditStrategy(QSqlTableModel::OnFieldChange);
-    table->setRelation(6, QSqlRelation("statuses", "id", "title")); // <-- ССЫЛКА
+    setupTable();
     table->select();
-
-
-
 
     // table->setTitles(dbl->get_titles(currentTable));
     ui->tableView->setModel(table);
+    ui->tableView->resizeColumnsToContents();
     ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked);
 
     // ui->mainLayout->addWidget(table);
 }
 
+void MainWindow::setupTable() {
+    switch (currentTableIndex)
+    {
+    case 0:
+        table->setRelation(6, QSqlRelation("statuses", "id", "title")); // <-- Link
+        break;
+    case 4:
+        table->setRelation(7, QSqlRelation("positions", "id", "title"));
+        break;
+    
+    default:
+        break;
+    }
+}
+
 void MainWindow::changeTable(int index) {
     currentTable = tables_en[index];
+    currentTableIndex = index;
     openTable();
 }

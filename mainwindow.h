@@ -27,8 +27,11 @@ public:
     DataBaseLib *dbl;
 
     QString currentTable = "users";
+    int currentTableIndex = 0;
     QComboBox *comboBox;
     void openTable();
+
+    void setupTable();
 public slots:
     void changeTable(int index);
 
