@@ -11,9 +11,11 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
@@ -26,9 +28,10 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout_2;
-    QVBoxLayout *verticalLayout;
     QVBoxLayout *mainLayout;
     QTableView *tableView;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *addButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -41,11 +44,6 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout_2 = new QVBoxLayout(centralwidget);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-
-        verticalLayout_2->addLayout(verticalLayout);
-
         mainLayout = new QVBoxLayout();
         mainLayout->setObjectName(QString::fromUtf8("mainLayout"));
         tableView = new QTableView(centralwidget);
@@ -55,6 +53,16 @@ public:
 
 
         verticalLayout_2->addLayout(mainLayout);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        addButton = new QPushButton(centralwidget);
+        addButton->setObjectName(QString::fromUtf8("addButton"));
+
+        horizontalLayout->addWidget(addButton);
+
+
+        verticalLayout_2->addLayout(horizontalLayout);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -73,6 +81,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "\320\220\320\264\320\274\320\270\320\275\320\270\321\201\321\202\321\200\320\260\321\202\320\276\321\200", nullptr));
+        addButton->setText(QCoreApplication::translate("MainWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214", nullptr));
     } // retranslateUi
 
 };

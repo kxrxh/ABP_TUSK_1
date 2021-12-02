@@ -8,7 +8,6 @@
 #include <QComboBox>
 #include <QSqlRelationalTableModel>
 #include <QTableView>
-#include "table/table.h"
 #include "databaselib.h"
 
 QT_BEGIN_NAMESPACE

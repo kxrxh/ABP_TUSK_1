@@ -1,8 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "databaselib.h"
-#include "table/table.h"
-#include <iostream>
+#include "./delegators/datedelegator.h"
 #include <QSqlRelationalDelegate>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -39,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     // setup UI
     ui->setupUi(this);
-    ui->verticalLayout->addWidget(comboBox);
+    ui->horizontalLayout->addWidget(comboBox);
     connect(comboBox, SIGNAL(currentIndexChanged(int)), SLOT(changeTable(int)));
     // setup database
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
@@ -100,6 +99,7 @@ void MainWindow::setupTable() {
     case 4:
         table->setRelation(7, QSqlRelation("positions", "id", "title"));
         ui->tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
+        ui->tableView->setItemDelegateForColumn(6, new DateDelegator());
         break;
     
     default:
