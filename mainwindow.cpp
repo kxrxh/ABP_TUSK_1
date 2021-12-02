@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     tables_en.push_back(QString("employees"));
     tables_en.push_back(QString("rent_start"));
     tables_en.push_back(QString("rent_finish"));
+    tables_en.push_back(QString("payment"));
     tables_en.push_back(QString("birth"));
     tables_en.push_back(QString("died"));
     tables_en.push_back(QString("price_change"));
@@ -81,6 +82,11 @@ void MainWindow::setupTable() {
     {
     case 0:
         table->setRelation(6, QSqlRelation("statuses", "id", "title")); // <-- Link
+        break;
+    case 1:
+        table->setRelation(2, QSqlRelation("nomenclature_type", "id", "title"));
+        table->setRelation(4, QSqlRelation("birth", "id", "title"));
+        table->setRelation(5, QSqlRelation("died", "id", "title"));
         break;
     case 4:
         table->setRelation(7, QSqlRelation("positions", "id", "title"));
