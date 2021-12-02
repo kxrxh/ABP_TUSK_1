@@ -44,9 +44,16 @@ MainWindow::MainWindow(QWidget *parent)
     db.setDatabaseName("main.db");
     dbl = new DataBaseLib(db);
     bool status = dbl->connect_to_base();
-    currentTable = QString("nomenclature_type");
-    table = new Table(this);
+    // currentTable = QString("nomenclature_type");
+    table = new QSqlRelationalTableModel(this);
+    table_view = new QTableView(this);
     openTable();
+    // changeTable(0);
+    std::vector<QString> values;
+    for (int i = 0; i < 3; ++i) {
+        values.push_back("213");
+    }
+    // dbl->insert_to_table("users", dbl->get_titles("users"), values);
     if (!status) {
         // TODO Error
     }
@@ -57,9 +64,10 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::openTable() {
-    table->setData(dbl->get_table(currentTable));
-    table->setTitles(dbl->get_titles(currentTable));
-    ui->mainLayout->addWidget(table);
+    table->setTable("users");
+    // table->setTitles(dbl->get_titles(currentTable));
+    table_view->setModel(table);
+    // ui->mainLayout->addWidget(table);
 }
 
 void MainWindow::changeTable(int index) {

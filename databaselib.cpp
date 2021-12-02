@@ -6,6 +6,13 @@ int DataBaseLib::get_table_columns_count(QSqlQuery dbquery) {
     return rec.count();
 }
 
+int DataBaseLib::get_rows_columns_count(QSqlQuery dbquery) {
+    int row_count = 0;
+    while(dbquery.next())
+         row_count++;
+    return row_count;
+}
+
 //PABLIC:
 bool DataBaseLib::connect_to_base() {
     db.setDatabaseName("main.db");
@@ -55,5 +62,16 @@ QStringList DataBaseLib::get_titles(QString table_name) {
     for(int i = 0; i < rec.count(); i++) {
         titles << rec.fieldName(i);
     }
+    qDebug() << titles;
     return titles;
 }
+/*
+void DataBaseLib::insert_to_table(QString table_name, QStringList columns, std::vector<QString> values) {
+    for (int i = 0; i < columns.size(); ++i) {
+        QSqlQuery query(db);
+        query.prepare("INSERT " + table_name + " (" + columns[i] +") VALUES(?)");
+        query.addBindValue(values[i]);
+        query.exec();
+    }
+}
+*/

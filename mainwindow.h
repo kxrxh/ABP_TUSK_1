@@ -6,6 +6,8 @@
 #include <QString>
 #include <QButtonGroup>
 #include <QComboBox>
+#include <QSqlRelationalTableModel>
+#include <QTableView>
 #include "table/table.h"
 #include "databaselib.h"
 
@@ -21,11 +23,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    Table *table;
+    QSqlRelationalTableModel  *table;
     DataBaseLib *dbl;
 
     QString currentTable;
     QComboBox *comboBox;
+    QTableView *table_view;
     void openTable();
 public slots:
     void changeTable(int index);
