@@ -46,7 +46,6 @@ MainWindow::MainWindow(QWidget *parent)
     bool status = dbl->connect_to_base();
     // currentTable = QString("nomenclature_type");
     table = new QSqlRelationalTableModel(this);
-    table_view = new QTableView(this);
     openTable();
     // changeTable(0);
     std::vector<QString> values;
@@ -66,7 +65,7 @@ MainWindow::~MainWindow() {
 void MainWindow::openTable() {
     table->setTable("users");
     // table->setTitles(dbl->get_titles(currentTable));
-    table_view->setModel(table);
+    ui->tableView->setModel(table);
     // ui->mainLayout->addWidget(table);
 }
 

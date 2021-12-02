@@ -11,9 +11,11 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -25,6 +27,7 @@ public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *mainLayout;
+    QTableView *tableView;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -39,6 +42,11 @@ public:
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         mainLayout = new QVBoxLayout();
         mainLayout->setObjectName(QString::fromUtf8("mainLayout"));
+        tableView = new QTableView(centralwidget);
+        tableView->setObjectName(QString::fromUtf8("tableView"));
+
+        mainLayout->addWidget(tableView);
+
 
         verticalLayout_2->addLayout(mainLayout);
 

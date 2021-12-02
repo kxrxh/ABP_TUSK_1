@@ -28,7 +28,6 @@ public:
 
     QString currentTable;
     QComboBox *comboBox;
-    QTableView *table_view;
     void openTable();
 public slots:
     void changeTable(int index);
