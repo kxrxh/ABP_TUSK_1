@@ -2,15 +2,16 @@
 #define DATEDELEGATOR_H
 
 #include <QString>
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
+#include <QDateEdit>
 #include <QDebug>
 #include <QDate>
  
-class DateDelegator : public QItemDelegate
+class DateDelegator : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
- 
-    QString displayText ( const QVariant & value, const QLocale & locale ) const;
+    QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
 };
 #endif

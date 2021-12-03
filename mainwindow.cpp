@@ -89,6 +89,7 @@ void MainWindow::setupTable() {
     case 0:
         table->setRelation(6, QSqlRelation("statuses", "id", "title")); // <-- Link
         ui->tableView->setItemDelegateForColumn(6, new QSqlRelationalDelegate());
+        ui->tableView->setItemDelegateForColumn(5, new DateDelegator());
         break;
     case 1:
         table->setRelation(2, QSqlRelation("nomenclature_type", "id", "title"));
@@ -107,7 +108,16 @@ void MainWindow::setupTable() {
         ui->tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
         ui->tableView->setItemDelegateForColumn(6, new DateDelegator());
         break;
-    
+    case 6:
+        currentTableIndex = 5;
+    case 5:
+        table->setRelation(2, QSqlRelation("users", "id", "mail"));
+        ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
+        table->setRelation(3, QSqlRelation("nomenclature", "id", "code"));
+        ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
+        table->setRelation(4, QSqlRelation("base", "id", "number"));
+        ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
+        break;
     default:
         break;
     }
@@ -120,6 +130,9 @@ void MainWindow::changeTable(int index) {
 }
 
 void MainWindow::addRow() {
+    if (currentTableIndex == 0) {
+
+    }
     int row = table->rowCount();
     table->insertRow(row);
 }
