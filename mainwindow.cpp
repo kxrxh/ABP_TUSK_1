@@ -117,7 +117,9 @@ void MainWindow::setupTable() {
         ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
         table->setRelation(4, QSqlRelation("base", "id", "number"));
         ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
-        break;
+        currentTableIndex = 7;
+    case 7:
+        ui->tableView->setItemDelegateForColumn(1, new TimeDelegator());
     default:
         break;
     }

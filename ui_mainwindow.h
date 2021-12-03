@@ -28,12 +28,12 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout_2;
-    QVBoxLayout *mainLayout;
-    QTableView *tableView;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayout;
     QPushButton *addButton;
     QPushButton *submitButton;
+    QVBoxLayout *mainLayout;
+    QTableView *tableView;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -46,16 +46,6 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout_2 = new QVBoxLayout(centralwidget);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        mainLayout = new QVBoxLayout();
-        mainLayout->setObjectName(QString::fromUtf8("mainLayout"));
-        tableView = new QTableView(centralwidget);
-        tableView->setObjectName(QString::fromUtf8("tableView"));
-
-        mainLayout->addWidget(tableView);
-
-
-        verticalLayout_2->addLayout(mainLayout);
-
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         verticalLayout = new QVBoxLayout();
@@ -75,6 +65,16 @@ public:
 
 
         verticalLayout_2->addLayout(horizontalLayout);
+
+        mainLayout = new QVBoxLayout();
+        mainLayout->setObjectName(QString::fromUtf8("mainLayout"));
+        tableView = new QTableView(centralwidget);
+        tableView->setObjectName(QString::fromUtf8("tableView"));
+
+        mainLayout->addWidget(tableView);
+
+
+        verticalLayout_2->addLayout(mainLayout);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);

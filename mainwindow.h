@@ -12,6 +12,7 @@
 #include <QtGui/QKeyEvent>
 #include <QSqlRelationalDelegate>
 #include "./delegators/datedelegator.h"
+#include "./delegators/timedelegator.h"
 
 
 QT_BEGIN_NAMESPACE
