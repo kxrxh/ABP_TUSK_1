@@ -13,17 +13,13 @@ class DataBaseLib
 private:
     QSqlDatabase db;
     int get_table_columns_count(QSqlQuery dbquery);
+
 public:
     DataBaseLib(QSqlDatabase database) { db = database; };
     bool connect_to_base();
-    QList<QString> get_database_tables();
-    std::vector<std::vector<QString>> db_select(QString _request);
-    std::vector<std::vector<QString>> get_table(QString table_name);
-    void delete_row_by_id(QString table_name, int id);
-    void insert_to_table(QString table_name, QStringList columns, std::vector<QString> values);
-    QStringList get_titles(QString table_name);
-    int get_rows_columns_count(QSqlQuery dbquery);
-    // void insert_row_to_table(QString table_name, std::vector<std::vector<QString>)
+    void update_price_change(QString productType, QString newPrice,
+                             QString date);
+    QString get_id_from_value(QString tableName, QString value);
 };
 
 #endif // DATABASELIB_H

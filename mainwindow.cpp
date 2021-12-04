@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
     db.setDatabaseName("main.db");
     dbl = new DataBaseLib(db);
     bool status = dbl->connect_to_base();
-    // currentTable = QString("nomenclature_type");
     table = new QSqlRelationalTableModel(this);
     connect(ui->tableView->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(sortBy(int)));
     openTable();
@@ -30,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
             Qt::UniqueConnection);
     connect(ui->submitButton, SIGNAL(clicked()), SLOT(acceptAll()),
             Qt::UniqueConnection);
+    connect(table, SIGNAL(beforeUpdate(int,QSqlRecord&)), this, SLOT(rowUpdated(int,QSqlRecord&)));
     if (!status) {
         // TODO Error
     }
@@ -143,4 +143,18 @@ void MainWindow::sortBy(int index) {
     }
     sortedIndex = index;
     updateTable();
+}
+
+void MainWindow::rowUpdated(int row, QSqlRecord &record)
+{
+    if (currentTable == "price")
+    {
+        QString currDate = QDate::currentDate().toString("dd.MM.yyyy");
+        QString newValueOfPrice = record.value(2).toString();
+        QString productTitle = record.value(1).toString();
+        QString productType = dbl->get_id_from_value("nomenclature_type",
+                                                     productTitle);
+        dbl->update_price_change(productType, newValueOfPrice, currDate);
+        qDebug() << productType << newValueOfPrice << productTitle;
+    }
 }

@@ -44,6 +44,7 @@ public slots:
     void acceptAll();
     void deleteCurrentRow();
     void sortBy(int index);
+    void rowUpdated(int row, QSqlRecord &record);
 private:
     std::vector<QString> tables_en;
     std::vector<QString> tables_ru;
