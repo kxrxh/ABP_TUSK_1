@@ -11,8 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Sql REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Sql Widgets REQUIRED)
+find_package(QT NAMES Qt6 COMPONENTS Widgets Sql Core REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Sql Widgets Core REQUIRED)
 
 set(PROJECT_SOURCES
     main.cpp
@@ -25,8 +25,6 @@ set(PROJECT_SOURCES
     delegators/timedelegator.h
     delegators/datedelegator.cpp
     delegators/timedelegator.cpp
-    delegators/booldelegator.h
-    delegators/booldelegator.cpp
     databaselib.h
     databaselib.cpp
     ui_mainwindow.h
@@ -48,4 +46,4 @@ else()
     endif()
 endif()
 
-target_link_libraries(ABS_TUSK_1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql)
+target_link_libraries(ABS_TUSK_1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql  Qt${QT_VERSION_MAJOR}::Core)

@@ -13,7 +13,6 @@
 #include <QSqlRelationalDelegate>
 #include "./delegators/datedelegator.h"
 #include "./delegators/timedelegator.h"
-#include "./delegators/booldelegator.h"
 
 
 QT_BEGIN_NAMESPACE
