@@ -92,12 +92,15 @@ void MainWindow::setupTable() {
         ui->tableView->setItemDelegateForColumn(5, new DateDelegator());
         break;
     case 1:
-        table->setRelation(2, QSqlRelation("nomenclature_type", "id", "title"));
-        ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
-        table->setRelation(4, QSqlRelation("birth", "id", "title"));
-        ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
-        table->setRelation(5, QSqlRelation("died", "id", "title"));
+        table->setRelation(3, QSqlRelation("nomenclature_type", "id", "title"));
+        ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
+        table->setRelation(5, QSqlRelation("birth", "id", "title"));
         ui->tableView->setItemDelegateForColumn(5, new QSqlRelationalDelegate());
+        table->setRelation(6, QSqlRelation("died", "id", "title"));
+        ui->tableView->setItemDelegateForColumn(6, new QSqlRelationalDelegate()); 
+        table->setRelation(4, QSqlRelation("bool", "id", "title"));
+        ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate()); 
+        //ui->tableView->setItemDelegateForColumn(4, new BoolDelegator());
         break;
     case 2:
         table->setRelation(1, QSqlRelation("nomenclature_type", "id", "title"));

@@ -25,6 +25,8 @@ set(PROJECT_SOURCES
     delegators/timedelegator.h
     delegators/datedelegator.cpp
     delegators/timedelegator.cpp
+    delegators/booldelegator.h
+    delegators/booldelegator.cpp
     databaselib.h
     databaselib.cpp
     ui_mainwindow.h
