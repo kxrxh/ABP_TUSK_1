@@ -12,6 +12,8 @@
 #include <QtGui/QKeyEvent>
 #include <QSqlRelationalDelegate>
 #include "./delegators/datedelegator.h"
+#include "./delegators/timedelegator.h"
+#include "./delegators/booldelegator.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -43,6 +45,7 @@ public slots:
     void acceptAll();
     void deleteCurrentRow();
     void sortBy(int index);
+    void rowUpdated(int row, QSqlRecord &record);
 private:
     std::vector<QString> tables_en;
     std::vector<QString> tables_ru;

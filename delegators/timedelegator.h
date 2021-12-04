@@ -1,13 +1,13 @@
-#ifndef DATEDELEGATOR_H
-#define DATEDELEGATOR_H
+#ifndef TIMEDELEGATOR_H
+#define TIMEDELEGATOR_H
 
 #include <QString>
 #include <QStyledItemDelegate>
-#include <QDateEdit>
+#include <QTimeEdit>
 #include <QDebug>
 #include <QDate>
  
-class DateDelegator : public QStyledItemDelegate
+class TimeDelegator : public QStyledItemDelegate
 {
     Q_OBJECT
 public:

@@ -43,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
     db.setDatabaseName("main.db");
     dbl = new DataBaseLib(db);
     bool status = dbl->connect_to_base();
-    // currentTable = QString("nomenclature_type");
     table = new QSqlRelationalTableModel(this);
     connect(ui->tableView->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(sortBy(int)));
     openTable();
@@ -51,8 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
             Qt::UniqueConnection);
     connect(ui->submitButton, SIGNAL(clicked()), SLOT(acceptAll()),
             Qt::UniqueConnection);
-    // changeTable(0);
-    // dbl->insert_to_table("users", dbl->get_titles("users"), values);
+    connect(table, SIGNAL(beforeUpdate(int,QSqlRecord&)), this, SLOT(rowUpdated(int,QSqlRecord&)));
     if (!status) {
         // TODO Error
     }
@@ -89,14 +87,18 @@ void MainWindow::setupTable() {
     case 0:
         table->setRelation(6, QSqlRelation("statuses", "id", "title")); // <-- Link
         ui->tableView->setItemDelegateForColumn(6, new QSqlRelationalDelegate());
+        ui->tableView->setItemDelegateForColumn(5, new DateDelegator());
         break;
     case 1:
-        table->setRelation(2, QSqlRelation("nomenclature_type", "id", "title"));
-        ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
-        table->setRelation(4, QSqlRelation("birth", "id", "title"));
-        ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
-        table->setRelation(5, QSqlRelation("died", "id", "title"));
+        table->setRelation(3, QSqlRelation("nomenclature_type", "id", "title"));
+        ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
+        table->setRelation(5, QSqlRelation("birth", "id", "title"));
         ui->tableView->setItemDelegateForColumn(5, new QSqlRelationalDelegate());
+        table->setRelation(6, QSqlRelation("died", "id", "title"));
+        ui->tableView->setItemDelegateForColumn(6, new QSqlRelationalDelegate()); 
+        table->setRelation(4, QSqlRelation("bool", "id", "title"));
+        ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate()); 
+        //ui->tableView->setItemDelegateForColumn(4, new BoolDelegator());
         break;
     case 2:
         table->setRelation(1, QSqlRelation("nomenclature_type", "id", "title"));
@@ -107,7 +109,18 @@ void MainWindow::setupTable() {
         ui->tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
         ui->tableView->setItemDelegateForColumn(6, new DateDelegator());
         break;
-    
+    case 6:
+        currentTableIndex = 5;
+    case 5:
+        table->setRelation(2, QSqlRelation("users", "id", "mail"));
+        ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
+        table->setRelation(3, QSqlRelation("nomenclature", "id", "code"));
+        ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
+        table->setRelation(4, QSqlRelation("base", "id", "number"));
+        ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
+        currentTableIndex = 7;
+    case 7:
+        ui->tableView->setItemDelegateForColumn(1, new TimeDelegator());
     default:
         break;
     }
@@ -120,6 +133,9 @@ void MainWindow::changeTable(int index) {
 }
 
 void MainWindow::addRow() {
+    if (currentTableIndex == 0) {
+
+    }
     int row = table->rowCount();
     table->insertRow(row);
 }
@@ -148,4 +164,18 @@ void MainWindow::sortBy(int index) {
     }
     sortedIndex = index;
     updateTable();
+}
+
+void MainWindow::rowUpdated(int row, QSqlRecord &record)
+{
+    if (currentTable == "price")
+    {
+        QString currDate = QDate::currentDate().toString("dd.MM.yyyy");
+        QString newValueOfPrice = record.value(2).toString();
+        QString productTitle = record.value(1).toString();
+        QString productType = dbl->get_id_from_value("nomenclature_type",
+                                                     productTitle);
+        dbl->update_price_change(productType, newValueOfPrice, currDate);
+        qDebug() << productType << newValueOfPrice << productTitle;
+    }
 }

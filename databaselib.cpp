@@ -1,77 +1,40 @@
 #include "databaselib.h"
 
-//PRIVATE:
-int DataBaseLib::get_table_columns_count(QSqlQuery dbquery) {
+// PRIVATE:
+int DataBaseLib::get_table_columns_count(QSqlQuery dbquery)
+{
     QSqlRecord rec = dbquery.record();
     return rec.count();
 }
-
-int DataBaseLib::get_rows_columns_count(QSqlQuery dbquery) {
-    int row_count = 0;
-    while(dbquery.next())
-         row_count++;
-    return row_count;
-}
-
-//PABLIC:
-bool DataBaseLib::connect_to_base() {
+// PABLIC:
+bool DataBaseLib::connect_to_base()
+{
     db.setDatabaseName("main.db");
     return db.open();
 }
 
-QList<QString> DataBaseLib::get_database_tables() {
-    return db.tables(QSql::Tables);
-}
-
-std::vector<std::vector<QString>> DataBaseLib::db_select(QString _request) {
-  std::vector<std::vector<QString>> all_rows_vector;
-
-  QSqlQuery query(db);
-  query.exec(_request);
-
-  int table_columns = get_table_columns_count(query);
-
-  while (query.next()) {
-      std::vector<QString> row_vector;
-      for (int i = 0; i < table_columns; ++i) {
-          row_vector.push_back(query.value(i).toString());
-      }
-      all_rows_vector.push_back(row_vector);
-  }
-  qDebug() << "G ";
-  qDebug() << all_rows_vector << table_columns;
-  return all_rows_vector;
-}
-
-std::vector<std::vector<QString>> DataBaseLib::get_table(QString table_name) {
-    return DataBaseLib::db_select("SELECT * FROM " + table_name);
-}
-
-void DataBaseLib::delete_row_by_id(QString table_name, int id) {
-    QSqlQuery query_delete(db);
-    query_delete.prepare("DELETE FROM " + table_name +
-                         " WHERE id = " + QString::number(id));
-    query_delete.exec();
-}
-
-QStringList DataBaseLib::get_titles(QString table_name) {
-    QStringList titles;
+void DataBaseLib::update_price_change(QString productType, QString newPrice,
+                                      QString date)
+{
     QSqlQuery query(db);
-    query.exec("SELECT * FROM " + table_name);
-    QSqlRecord rec = query.record();
-    for(int i = 0; i < rec.count(); i++) {
-        titles << rec.fieldName(i);
-    }
-    qDebug() << titles;
-    return titles;
+    query.prepare("INSERT INTO price_change (date, type, new_price) "
+                  "VALUES (:date, :type, :new_price)");
+    query.bindValue(":date", date);
+    query.bindValue(":type", productType.toInt());
+    query.bindValue(":new_price", newPrice.toInt());
+    query.exec();
 }
-/*
-void DataBaseLib::insert_to_table(QString table_name, QStringList columns, std::vector<QString> values) {
-    for (int i = 0; i < columns.size(); ++i) {
-        QSqlQuery query(db);
-        query.prepare("INSERT " + table_name + " (" + columns[i] +") VALUES(?)");
-        query.addBindValue(values[i]);
-        query.exec();
+
+QString DataBaseLib::get_id_from_value(QString tableName, QString value)
+{
+    QString id;
+    QSqlQuery query(db);
+    QString request = QString("SELECT id FROM %1 WHERE title = '%2'")
+                          .arg(tableName, value);
+    query.exec(request);
+    while (query.next())
+    {
+        id = query.value(0).toString();
     }
+    return id;
 }
-*/
