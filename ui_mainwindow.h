@@ -70,6 +70,7 @@ public:
         mainLayout->setObjectName(QString::fromUtf8("mainLayout"));
         tableView = new QTableView(centralwidget);
         tableView->setObjectName(QString::fromUtf8("tableView"));
+        tableView->setSortingEnabled(true);
 
         mainLayout->addWidget(tableView);
 
@@ -79,7 +80,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 900, 31));
+        menubar->setGeometry(QRect(0, 0, 900, 25));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));

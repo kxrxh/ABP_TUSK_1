@@ -14,7 +14,7 @@ QWidget* DateDelegator::createEditor(QWidget *parent, const QStyleOptionViewItem
         return dateEdit;
     }
     // Обязательно, для вызова редакторов по умолчанию
-    return QStyledItemDelegate::createEditor(parent, option, index);
+    return QItemDelegate::createEditor(parent, option, index);
 }
 
 // Инициализируем наш виджет текущим значением
@@ -28,5 +28,10 @@ void DateDelegator::setEditorData(QWidget *editor, const QModelIndex &index) con
             return;
         }
     }
-    QStyledItemDelegate::setEditorData(editor, index);
+    QItemDelegate::setEditorData(editor, index);
+}
+
+void DateDelegator::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const {
+    QString value = model->data(index).toDate().toString("dd.MM.yyyy");
+    QItemDelegate::setModelData(editor, model, index);
 }
