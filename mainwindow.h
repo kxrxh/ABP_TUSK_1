@@ -11,9 +11,19 @@
 #include "databaselib.h"
 #include <QtGui/QKeyEvent>
 #include <QSqlRelationalDelegate>
-#include "./delegators/datedelegator.h"
+#include "./delegators/datedelegate.h"
 #include "./delegators/timedelegator.h"
 
+class DataDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+ 
+    QString displayText ( const QVariant & value, const QLocale & locale ) const
+    {
+        return QStyledItemDelegate::displayText(value.toDate().toString("dd.MM.yyyy г."), locale);
+    }
+};
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

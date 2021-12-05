@@ -21,9 +21,9 @@ set(PROJECT_SOURCES
     mainwindow.ui
     # table/table.h
     # table/table.cpp
-    delegators/datedelegator.h
+    delegators/datedelegate.h
     delegators/timedelegator.h
-    delegators/datedelegator.cpp
+    delegators/datedelegate.cpp
     delegators/timedelegator.cpp
     databaselib.h
     databaselib.cpp
