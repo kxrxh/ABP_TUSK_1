@@ -72,10 +72,8 @@ void MainWindow::setupTable() {
     case 1:
         table->setRelation(3, QSqlRelation("nomenclature_type", "id", "title"));
         ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
-        table->setRelation(5, QSqlRelation("birth", "id", "title"));
-        ui->tableView->setItemDelegateForColumn(5, new QSqlRelationalDelegate());
-        table->setRelation(6, QSqlRelation("died", "id", "title"));
-        ui->tableView->setItemDelegateForColumn(6, new QSqlRelationalDelegate()); 
+        ui->tableView->setItemDelegateForColumn(5, new DateDelegator());
+        ui->tableView->setItemDelegateForColumn(6, new DateDelegator());
         table->setRelation(4, QSqlRelation("bool", "id", "title"));
         ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate()); 
         //ui->tableView->setItemDelegateForColumn(4, new BoolDelegator());
@@ -141,15 +139,20 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 }
 
 void MainWindow::rowUpdated(int row, QSqlRecord &record) {
-    if (currentTable == "price") {
+    switch (currentTableIndex) {
+    case 2: {
         QString currDate = QDate::currentDate().toString("dd.MM.yyyy");
-        QString newValueOfPrice = record.value(2).toString();
+        int newValueOfPrice = record.value(2).toInt();
         QString productTitle = record.value(1).toString();
-        QString productType = dbl->get_id_from_value("nomenclature_type",
-                                                     productTitle);
+        int productType = dbl->get_id_from_value("nomenclature_type",
+                                                     productTitle).toInt();
         dbl->update_price_change(productType, newValueOfPrice, currDate);
-        qDebug() << productType << newValueOfPrice << productTitle;
-    } else if (currentTableIndex == 3) {
-        
+    }
+    case 1: {
+        QString diedDate = record.value(6).toString();
+        QString birthDate = record.value(5).toString();
+        int id = record.value(0).toInt();
+        dbl->update_birth_and_died(id, diedDate, birthDate);
+    }
     }
 }
