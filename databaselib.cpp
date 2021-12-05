@@ -13,15 +13,15 @@ bool DataBaseLib::connect_to_base()
     return db.open();
 }
 
-void DataBaseLib::update_price_change(QString productType, QString newPrice,
+void DataBaseLib::update_price_change(int productType, int newPrice,
                                       QString date)
 {
     QSqlQuery query(db);
     query.prepare("INSERT INTO price_change (date, type, new_price) "
                   "VALUES (:date, :type, :new_price)");
     query.bindValue(":date", date);
-    query.bindValue(":type", productType.toInt());
-    query.bindValue(":new_price", newPrice.toInt());
+    query.bindValue(":type", productType);
+    query.bindValue(":new_price", newPrice);
     query.exec();
 }
 
@@ -37,4 +37,20 @@ QString DataBaseLib::get_id_from_value(QString tableName, QString value)
         id = query.value(0).toString();
     }
     return id;
+}
+
+void DataBaseLib::update_birth_and_died(int id,
+                                        QString birthDate, QString diedDate) {
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO died (date, code) "
+                  "VALUES (:date, :code)");
+    query.bindValue(":date", diedDate);
+    query.bindValue(":code", id);
+    query.exec();
+    query.prepare("INSERT INTO birth (date, code) "
+                  "VALUES (:date, :code)");
+    query.bindValue(":date", birthDate);
+    query.bindValue(":code", id);
+    query.exec();
+
 }
