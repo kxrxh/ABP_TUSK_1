@@ -1,7 +1,5 @@
 #include "./datedelegator.h"
 #include <QDebug>
-#include <iostream>
-using namespace std;
 
 QWidget* DateDelegator::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     if (index.isValid()) {
@@ -14,7 +12,7 @@ QWidget* DateDelegator::createEditor(QWidget *parent, const QStyleOptionViewItem
         return dateEdit;
     }
     // Обязательно, для вызова редакторов по умолчанию
-    return QItemDelegate::createEditor(parent, option, index);
+    return QStyledItemDelegate::createEditor(parent, option, index);
 }
 
 // Инициализируем наш виджет текущим значением
@@ -28,10 +26,10 @@ void DateDelegator::setEditorData(QWidget *editor, const QModelIndex &index) con
             return;
         }
     }
-    QItemDelegate::setEditorData(editor, index);
+    QStyledItemDelegate::setEditorData(editor, index);
 }
 
 void DateDelegator::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const {
     QString value = model->data(index).toDate().toString("dd.MM.yyyy");
-    QItemDelegate::setModelData(editor, model, index);
+    QStyledItemDelegate::setModelData(editor, model, index);
 }

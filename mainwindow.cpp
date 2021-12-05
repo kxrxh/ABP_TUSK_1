@@ -14,83 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
         comboBox->addItem(tables_ru[i]);
     }
     std::vector<QString> tmp; 
-    tmp.push_back(QString("id"));
-    tmp.push_back(QString("Имя"));
-    tmp.push_back(QString("Фамилия"));
-    tmp.push_back(QString("Отчество"));
-    tmp.push_back(QString("Номер телефона"));
-    tmp.push_back(QString("Почта"));
-    tmp.push_back(QString("Дата рождения"));
-    tmp.push_back(QString("Статус"));
-    ru_columns.push_back(tmp);
-    tmp.clear();
-    tmp.push_back(QString("id"));
-    tmp.push_back(QString("Код"));
-    tmp.push_back(QString("Название"));
-    tmp.push_back(QString("Тип предмета"));
-    tmp.push_back(QString("Использование"));
-    tmp.push_back(QString("Дата ввода"));
-    tmp.push_back(QString("Дата вывода"));
-    ru_columns.push_back(tmp); tmp.clear();
-    tmp.push_back(QString("id"));
-    tmp.push_back(QString("Наименование"));
-    tmp.push_back(QString("Цена"));
-    tmp.push_back(QString("Дата изменения"));
-    ru_columns.push_back(tmp); tmp.clear();
-    tmp.push_back(QString("id"));
-    tmp.push_back(QString("Номер"));
-    tmp.push_back(QString("Наименование"));
-    tmp.push_back(QString("Адрес"));
-    tmp.push_back(QString("Почтовый индекс"));
-    tmp.push_back(QString("Координаты"));
-    ru_columns.push_back(tmp); tmp.clear();
-    tmp.push_back(QString("id"));
-    tmp.push_back(QString("Имя"));
-    tmp.push_back(QString("Фамилия"));
-    tmp.push_back(QString("Отчество"));
-    tmp.push_back(QString("Номер телефона"));
-    tmp.push_back(QString("Почта"));
-    tmp.push_back(QString("Дата рождения"));
-    tmp.push_back(QString("Должность"));
-    ru_columns.push_back(tmp); tmp.clear();
-    tmp.push_back(QString("id"));
-    tmp.push_back(QString("Время"));
-    tmp.push_back(QString("Пользователь"));
-    tmp.push_back(QString("Предмет"));
-    tmp.push_back(QString("Станция"));
-    tmp.push_back(QString("Станция"));
-    tmp.push_back(QString("Станция"));
-    tmp.push_back(QString("Станция"));
-    ru_columns.push_back(tmp); tmp.clear();
-    tmp.push_back(QString("id"));
-    tmp.push_back(QString("Время"));
-    tmp.push_back(QString("Пользователь"));
-    tmp.push_back(QString("Предмет"));
-    tmp.push_back(QString("Станция"));
-    ru_columns.push_back(tmp); tmp.clear();
-    tmp.push_back(QString("id"));
-    tmp.push_back(QString("Начало"));
-    tmp.push_back(QString("Пользователь"));
-    tmp.push_back(QString("Скидка"));
-    tmp.push_back(QString("Время аренды"));
-    tmp.push_back(QString("Сумма"));
-    tmp.push_back(QString("Предмет"));
-    tmp.push_back(QString("Тариф"));
-    ru_columns.push_back(tmp); tmp.clear();
-    tmp.push_back(QString("id"));
-    tmp.push_back(QString("Артикул"));
-    tmp.push_back(QString("Дата"));
-    ru_columns.push_back(tmp); tmp.clear();
-    tmp.push_back(QString("id"));
-    tmp.push_back(QString("Артикул"));
-    tmp.push_back(QString("Дата"));
-    ru_columns.push_back(tmp); tmp.clear();
-    tmp.push_back(QString("id"));
-    tmp.push_back(QString("Дата"));
-    tmp.push_back(QString("Тип"));
-    tmp.push_back(QString("Новая цена"));
-    ru_columns.push_back(tmp); tmp.clear();
-    // setup UI
+    tmp.push_back(QString("id"));  tmp.push_back(QString("Имя"));  tmp.push_back(QString("Фамилия"));  tmp.push_back(QString("Отчество"));  tmp.push_back(QString("Номер телефона"));  tmp.push_back(QString("Почта"));  tmp.push_back(QString("Дата рождения"));  tmp.push_back(QString("Статус"));  ru_columns.push_back(tmp);  tmp.clear();  tmp.push_back(QString("id"));  tmp.push_back(QString("Код"));  tmp.push_back(QString("Название"));  tmp.push_back(QString("Тип предмета"));  tmp.push_back(QString("Использование"));  tmp.push_back(QString("Дата ввода"));  tmp.push_back(QString("Дата вывода"));  ru_columns.push_back(tmp); tmp.clear();  tmp.push_back(QString("id"));  tmp.push_back(QString("Наименование"));  tmp.push_back(QString("Цена"));  tmp.push_back(QString("Дата изменения"));  ru_columns.push_back(tmp); tmp.clear();  tmp.push_back(QString("id"));  tmp.push_back(QString("Номер"));  tmp.push_back(QString("Наименование"));  tmp.push_back(QString("Адрес"));  tmp.push_back(QString("Почтовый индекс"));  tmp.push_back(QString("Координаты"));  ru_columns.push_back(tmp); tmp.clear();  tmp.push_back(QString("id"));  tmp.push_back(QString("Имя"));  tmp.push_back(QString("Фамилия"));  tmp.push_back(QString("Отчество"));  tmp.push_back(QString("Номер телефона"));  tmp.push_back(QString("Почта"));  tmp.push_back(QString("Дата рождения"));  tmp.push_back(QString("Должность"));  ru_columns.push_back(tmp); tmp.clear();  tmp.push_back(QString("id"));  tmp.push_back(QString("Время"));  tmp.push_back(QString("Пользователь"));  tmp.push_back(QString("Предмет"));  tmp.push_back(QString("Станция"));  tmp.push_back(QString("Станция"));  tmp.push_back(QString("Станция"));  tmp.push_back(QString("Станция"));  ru_columns.push_back(tmp); tmp.clear();  tmp.push_back(QString("id"));  tmp.push_back(QString("Время"));  tmp.push_back(QString("Пользователь"));  tmp.push_back(QString("Предмет"));  tmp.push_back(QString("Станция"));  ru_columns.push_back(tmp); tmp.clear();  tmp.push_back(QString("id"));  tmp.push_back(QString("Начало"));  tmp.push_back(QString("Пользователь"));  tmp.push_back(QString("Скидка"));  tmp.push_back(QString("Время аренды"));  tmp.push_back(QString("Сумма"));  tmp.push_back(QString("Предмет"));  tmp.push_back(QString("Тариф"));  ru_columns.push_back(tmp); tmp.clear();  tmp.push_back(QString("id"));  tmp.push_back(QString("Артикул"));  tmp.push_back(QString("Дата"));  ru_columns.push_back(tmp); tmp.clear();  tmp.push_back(QString("id"));  tmp.push_back(QString("Артикул"));  tmp.push_back(QString("Дата"));  ru_columns.push_back(tmp); tmp.clear();  tmp.push_back(QString("id"));  tmp.push_back(QString("Дата"));  tmp.push_back(QString("Тип"));  tmp.push_back(QString("Новая цена"));  ru_columns.push_back(tmp); tmp.clear();  // setup UI
     ui->setupUi(this);
     ui->verticalLayout->addWidget(comboBox);
     connect(comboBox, SIGNAL(currentIndexChanged(int)), SLOT(changeTable(int)));
@@ -117,12 +41,11 @@ MainWindow::~MainWindow() {
 
 void MainWindow::openTable() {
     table->setTable(currentTable);
-        updateTable();
+    updateTable();
 }
 
 void MainWindow::updateTable() {
-    table->setEditStrategy(QSqlTableModel::OnFieldChange);
-    setupTable();
+    table->setEditStrategy(QSqlTableModel::OnManualSubmit);
     table->select();
     // table->setTitles(dbl->get_titles(currentTable));
     ui->tableView->setModel(table);
@@ -135,6 +58,7 @@ void MainWindow::updateTable() {
     for (int i = 0; i < ru_columns[currentTableIndex].size(); ++i) {
         table->setHeaderData(i, Qt::Horizontal, ru_columns[currentTableIndex][i]);
     }
+    setupTable();
 }
 
 void MainWindow::setupTable() {
@@ -205,6 +129,7 @@ void MainWindow::deleteCurrentRow() {
     QItemSelectionModel *select = ui->tableView->selectionModel();
     for (const QModelIndex &selected : select->selectedRows()) {
         table->removeRow(selected.row());
+        table->submitAll();
     }
     table->select();
 }
