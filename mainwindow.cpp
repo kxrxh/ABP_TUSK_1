@@ -67,7 +67,7 @@ void MainWindow::setupTable() {
     case 0:
         table->setRelation(7, QSqlRelation("statuses", "id", "title")); // <-- Link
         ui->tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
-        ui->tableView->setItemDelegateForColumn(6, new DataDelegate());
+        ui->tableView->setItemDelegateForColumn(6, new DateDelegate());
         break;
     case 1:
         table->setRelation(3, QSqlRelation("nomenclature_type", "id", "title"));
