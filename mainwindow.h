@@ -35,7 +35,6 @@ public:
     int sortedIndex = 0;
     void openTable();
     void updateTable();
-
     void setupTable();
 public slots:
     void changeTable(int index);
@@ -44,13 +43,14 @@ public slots:
     void deleteCurrentRow();
     void rowUpdated(int row, QSqlRecord &record);
 private:
+    int flag = 0;
     std::vector<QString> tables_en;
     std::vector<QString> tables_ru;
     std::vector<std::vector<QString>> ru_columns;
     int sortOrder = 0;
-    
+    qint64 secondsToString(qint64 seconds);
     bool exists = false;
     Ui::MainWindow *ui;
-   void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 };
 #endif // MAINWINDOW_H

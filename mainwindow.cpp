@@ -125,14 +125,12 @@ void MainWindow::changeTable(int index) {
 }
 
 void MainWindow::addRow() {
-    if (currentTableIndex == 0) {
-
-    }
     int row = table->rowCount();
     table->insertRow(row);
 }
 
 void MainWindow::acceptAll() {
+    qDebug() << "accpet";
     table->submitAll();
     updateTable();
 }
@@ -152,21 +150,44 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     }
 }
 
+qint64 MainWindow::secondsToString(qint64 seconds)
+{
+  return seconds / 86400;
+}
+
 void MainWindow::rowUpdated(int row, QSqlRecord &record) {
     switch (currentTableIndex) {
-    case 2: {
-        QString currDate = QDate::currentDate().toString("dd.MM.yyyy");
-        int newValueOfPrice = record.value(2).toInt();
-        QString productTitle = record.value(1).toString();
-        int productType = dbl->get_id_from_value("nomenclature_type",
-                                                     productTitle).toInt();
-        dbl->update_price_change(productType, newValueOfPrice, currDate);
-    }
     case 1: {
+        qDebug() << "case: 1";
         QString diedDate = record.value(6).toString();
         QString birthDate = record.value(5).toString();
         int id = record.value(0).toInt();
         dbl->update_birth_and_died(id, diedDate, birthDate);
+        break;
     }
+    case 2: {
+        qDebug() << "case: 2";
+        // ТУТ НАЧАЛО
+        QString lastChangeDate = record.value(3).toString();
+        QString currDate = QDate::currentDate().toString("dd.MM.yyyy");
+        QDateTime a = QDateTime::fromString(lastChangeDate, "dd.MM.yyyy");
+        QDateTime b = QDateTime::fromString(currDate, "dd.MM.yyyy");
+        qint64 d = secondsToString(a.secsTo(b)); // ПОЛУЧЕНИЕ РАЗНИЦЫ В ДНЯХ
+        if (d > 0) {
+            int newValueOfPrice = record.value(2).toInt();
+            QString productTitle = record.value(1).toString();
+            int productType = dbl->get_id_from_value("nomenclature_type",
+                                                         productTitle).toInt();
+            dbl->update_price_change(productType, newValueOfPrice, currDate);
+
+        }
+        else {
+            table->revertAll();
+        }
+        break;
+    }
+    default:
+        qDebug() << currentTableIndex;
+        break;
     }
 }
