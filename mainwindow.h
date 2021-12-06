@@ -11,9 +11,8 @@
 #include "databaselib.h"
 #include <QtGui/QKeyEvent>
 #include <QSqlRelationalDelegate>
-#include "./delegators/datedelegator.h"
-#include "./delegators/timedelegator.h"
-
+#include "./delegators/datedelegate.h"
+#include "./delegators/timedelegate.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

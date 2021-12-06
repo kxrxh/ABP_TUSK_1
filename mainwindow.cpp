@@ -67,13 +67,13 @@ void MainWindow::setupTable() {
     case 0:
         table->setRelation(7, QSqlRelation("statuses", "id", "title")); // <-- Link
         ui->tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
-        ui->tableView->setItemDelegateForColumn(6, new DateDelegator());
+        ui->tableView->setItemDelegateForColumn(6, new DateDelegate());
         break;
     case 1:
         table->setRelation(3, QSqlRelation("nomenclature_type", "id", "title"));
         ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
-        ui->tableView->setItemDelegateForColumn(5, new DateDelegator());
-        ui->tableView->setItemDelegateForColumn(6, new DateDelegator());
+        ui->tableView->setItemDelegateForColumn(5, new DateDelegate(ui->tableView));
+        ui->tableView->setItemDelegateForColumn(6, new DateDelegate(ui->tableView));
         table->setRelation(4, QSqlRelation("bool", "id", "title"));
         ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate()); 
         //ui->tableView->setItemDelegateForColumn(4, new BoolDelegator());
@@ -81,25 +81,38 @@ void MainWindow::setupTable() {
     case 2:
         table->setRelation(1, QSqlRelation("nomenclature_type", "id", "title"));
         ui->tableView->setItemDelegateForColumn(1, new QSqlRelationalDelegate());
-        ui->tableView->setItemDelegateForColumn(3, new DateDelegator());
+        ui->tableView->setItemDelegateForColumn(3, new DateDelegate(ui->tableView));
         break;
     case 4:
         table->setRelation(7, QSqlRelation("positions", "id", "title"));
         ui->tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
-        ui->tableView->setItemDelegateForColumn(6, new DateDelegator());
+        ui->tableView->setItemDelegateForColumn(6, new DateDelegate(ui->tableView));
         break;
     case 6:
         currentTableIndex = 5;
     case 5:
-        table->setRelation(2, QSqlRelation("users", "id", "mail"));
+        table->setRelation(2, QSqlRelation("users", "id", "name"));
         ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
         table->setRelation(3, QSqlRelation("nomenclature", "id", "code"));
         ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
         table->setRelation(4, QSqlRelation("base", "id", "number"));
         ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
-        currentTableIndex = 7;
+        ui->tableView->setItemDelegateForColumn(1, new TimeDelegate());
+        break;
     case 7:
-        ui->tableView->setItemDelegateForColumn(1, new TimeDelegator());
+        ui->tableView->setItemDelegateForColumn(1, new TimeDelegate());
+        table->setRelation(2, QSqlRelation("users", "id", "mail"));
+        table->setRelation(6, QSqlRelation("nomenclature", "id", "code"));
+        ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
+        ui->tableView->setItemDelegateForColumn(6, new QSqlRelationalDelegate());
+        break;
+    case 8:
+        currentTableIndex = 9;
+    case 9:
+        table->setRelation(2, QSqlRelation("nomenclature", "id", "code"));
+        ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
+        ui->tableView->setItemDelegateForColumn(2, new DateDelegate());
+        break;
     default:
         break;
     }
@@ -121,6 +134,7 @@ void MainWindow::addRow() {
 
 void MainWindow::acceptAll() {
     table->submitAll();
+    updateTable();
 }
 
 void MainWindow::deleteCurrentRow() {
