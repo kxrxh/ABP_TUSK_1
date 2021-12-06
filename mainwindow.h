@@ -12,7 +12,7 @@
 #include <QtGui/QKeyEvent>
 #include <QSqlRelationalDelegate>
 #include "./delegators/datedelegate.h"
-#include "./delegators/timedelegator.h"
+#include "./delegators/timedelegate.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

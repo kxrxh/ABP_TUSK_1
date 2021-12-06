@@ -1,14 +1,14 @@
-#ifndef DATEDELEGATE_H
-#define DATEDELEGATE_H
+#ifndef TIMEDELEGATE_H
+#define TIMEDELEGATE_H
 
 #include <QStyledItemDelegate>
-#include <QDateEdit>
+#include <QTimeEdit>
 
-class DateDelegate: public QStyledItemDelegate
+class TimeDelegate: public QStyledItemDelegate
 {
  Q_OBJECT
 public:
-    DateDelegate(QObject *parent = 0);
+    TimeDelegate(QObject *parent = 0);
 
     QWidget *createEditor( QWidget *parent,
                             const QStyleOptionViewItem &option,
@@ -27,11 +27,11 @@ public:
 
     QString displayText ( const QVariant & value, const QLocale & locale ) const;
 
-    mutable QDateEdit *dataTimeEdit;
+    mutable QTimeEdit *dataTimeEdit;
 
 public slots:
 
-    void setData(QDate val);
+    void setData(QTime val);
 
 };
 
