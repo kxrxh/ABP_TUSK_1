@@ -70,6 +70,11 @@ public:
         mainLayout->setObjectName(QString::fromUtf8("mainLayout"));
         tableView = new QTableView(centralwidget);
         tableView->setObjectName(QString::fromUtf8("tableView"));
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(tableView->sizePolicy().hasHeightForWidth());
+        tableView->setSizePolicy(sizePolicy);
         tableView->setSortingEnabled(true);
 
         mainLayout->addWidget(tableView);

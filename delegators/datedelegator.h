@@ -2,12 +2,12 @@
 #define DATEDELEGATOR_H
 
 #include <QString>
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 #include <QDateEdit>
 #include <QDebug>
 #include <QDate>
  
-class DateDelegator : public QItemDelegate
+class DateDelegator : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
