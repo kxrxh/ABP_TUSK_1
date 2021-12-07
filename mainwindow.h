@@ -31,6 +31,8 @@ public:
 
   QSqlRelationalTableModel *table;
   DataBaseLib *dbl;
+  QTableView *tableView;
+  bool opened = false;
 
   QString currentTable = "users";
   int currentTableIndex = 0;

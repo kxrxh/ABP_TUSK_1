@@ -47,4 +47,3 @@ else()
 endif()
 
 target_link_libraries(ABS_TUSK_1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql  Qt${QT_VERSION_MAJOR}::Core)
-set_target_properties(ABS_TUSK_1 PROPERTIES LINK_FLAGS "-mwindows")

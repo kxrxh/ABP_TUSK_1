@@ -135,86 +135,92 @@ MainWindow::MainWindow(QWidget *parent)
   connect(table, SIGNAL(beforeUpdate(int, QSqlRecord &)), this,
           SLOT(rowUpdated(int, QSqlRecord &)));
   if (!status) {
-    // TODO Error
+    
   }
 }
 
 MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::openTable() {
+  if (opened)
+  delete tableView;
+  opened = true;
+  tableView = new QTableView(this);
+  tableView->setSortingEnabled(true);
+  ui->mainLayout->addWidget(tableView);
   table->setTable(currentTable);
   updateTable();
 }
 
 void MainWindow::updateTable() {
+  setupTable();
   table->setEditStrategy(QSqlTableModel::OnManualSubmit);
   table->select();
   // table->setTitles(dbl->get_titles(currentTable));
-  ui->tableView->setModel(table);
-  ui->tableView->resizeColumnsToContents();
-  ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked);
+  tableView->setModel(table);
+  tableView->resizeColumnsToContents();
+  tableView->setEditTriggers(QAbstractItemView::DoubleClicked);
   if (sortOrder)
-    ui->tableView->sortByColumn(sortedIndex, Qt::DescendingOrder);
+    tableView->sortByColumn(sortedIndex, Qt::DescendingOrder);
   else
-    ui->tableView->sortByColumn(sortedIndex, Qt::AscendingOrder);
+    tableView->sortByColumn(sortedIndex, Qt::AscendingOrder);
   for (int i = 0; i < ru_columns[currentTableIndex].size(); ++i) {
     table->setHeaderData(i, Qt::Horizontal, ru_columns[currentTableIndex][i]);
   }
-  setupTable();
 }
 
 void MainWindow::setupTable() {
   switch (currentTableIndex) {
   case 0:
     table->setRelation(7, QSqlRelation("statuses", "id", "title")); // <-- Link
-    ui->tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(6, new DateDelegate());
-    ui->tableView->setItemDelegateForColumn(4, new Phonedelegate());
+    tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
+    tableView->setItemDelegateForColumn(6, new DateDelegate());
+    tableView->setItemDelegateForColumn(4, new Phonedelegate());
     break;
   case 1:
     table->setRelation(3, QSqlRelation("nomenclature_type", "id", "title"));
-    ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(5, new DateDelegate(ui->tableView));
-    ui->tableView->setItemDelegateForColumn(6, new DateDelegate(ui->tableView));
+    tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
+    tableView->setItemDelegateForColumn(5, new DateDelegate(tableView));
+    tableView->setItemDelegateForColumn(6, new DateDelegate(tableView));
     table->setRelation(4, QSqlRelation("bool", "id", "title"));
-    ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
-    // ui->tableView->setItemDelegateForColumn(4, new BoolDelegator());
+    tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
+    // tableView->setItemDelegateForColumn(4, new BoolDelegator());
     break;
   case 2:
     table->setRelation(1, QSqlRelation("nomenclature_type", "id", "title"));
-    ui->tableView->setItemDelegateForColumn(1, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(3, new DateDelegate(ui->tableView));
+    tableView->setItemDelegateForColumn(1, new QSqlRelationalDelegate());
+    tableView->setItemDelegateForColumn(3, new DateDelegate(tableView));
     break;
   case 4:
     table->setRelation(7, QSqlRelation("positions", "id", "title"));
-    ui->tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(6, new DateDelegate(ui->tableView));
-    ui->tableView->setItemDelegateForColumn(4, new Phonedelegate());
+    tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
+    tableView->setItemDelegateForColumn(6, new DateDelegate(tableView));
+    tableView->setItemDelegateForColumn(4, new Phonedelegate());
     break;
   case 6:
     currentTableIndex = 5;
   case 5:
     table->setRelation(2, QSqlRelation("users", "id", "name"));
-    ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
+    tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
     table->setRelation(3, QSqlRelation("nomenclature", "id", "code"));
-    ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
+    tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
     table->setRelation(4, QSqlRelation("base", "id", "number"));
-    ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(1, new TimeDelegate());
+    tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
+    tableView->setItemDelegateForColumn(1, new TimeDelegate());
     break;
   case 7:
-    ui->tableView->setItemDelegateForColumn(1, new TimeDelegate());
+    tableView->setItemDelegateForColumn(1, new TimeDelegate());
     table->setRelation(2, QSqlRelation("users", "id", "mail"));
     table->setRelation(6, QSqlRelation("nomenclature", "id", "code"));
-    ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(6, new QSqlRelationalDelegate());
+    tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
+    tableView->setItemDelegateForColumn(6, new QSqlRelationalDelegate());
     break;
   case 8:
     currentTableIndex = 9;
   case 9:
     table->setRelation(2, QSqlRelation("nomenclature", "id", "code"));
-    ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(2, new DateDelegate());
+    tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
+    tableView->setItemDelegateForColumn(2, new DateDelegate());
     break;
   default:
     break;
@@ -239,7 +245,7 @@ void MainWindow::acceptAll() {
 }
 
 void MainWindow::deleteCurrentRow() {
-  QItemSelectionModel *select = ui->tableView->selectionModel();
+  QItemSelectionModel *select = tableView->selectionModel();
   for (const QModelIndex &selected : select->selectedRows()) {
     table->removeRow(selected.row());
     table->submitAll();
@@ -266,7 +272,6 @@ void MainWindow::rowUpdated(int row, QSqlRecord &record) {
     break;
   }
   case 2: {
-    qDebug() << "case: 2";
     // ТУТ НАЧАЛО
     QString lastChangeDate = record.value(3).toString();
     QString currDate = QDate::currentDate().toString("dd.MM.yyyy");
