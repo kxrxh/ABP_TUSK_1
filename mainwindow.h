@@ -1,26 +1,24 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "./delegators/datedelegate.h"
-#include "./delegators/phonedelegate.h"
-#include "./delegators/timedelegate.h"
-#include "databaselib.h"
-#include <QButtonGroup>
-#include <QComboBox>
+#include <QCoreApplication>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QFont>
 #include <QLabel>
 #include <QMainWindow>
-#include <QSqlRelationalDelegate>
-#include <QSqlRelationalTableModel>
-#include <QString>
-#include <QTableView>
-#include <QtGui/QKeyEvent>
-
-
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
-}
-QT_END_NAMESPACE
+#include <QPushButton>
+#include <QTableWidget>
+#include <QTableWidgetItem>
+#include <QtWidgets>
+#include <algorithm>
+#include <cmath>
+#include <ctime>
+#include <fstream>
+#include <random>
+#include <sstream>
+#include <string>
+#include <vector>
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -29,31 +27,18 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
-  QSqlRelationalTableModel *table;
-  DataBaseLib *dbl;
-
-  QString currentTable = "users";
-  int currentTableIndex = 0;
-  QComboBox *comboBox;
-  int sortedIndex = 0;
-  void openTable();
-  void updateTable();
-  void setupTable();
-public slots:
-  void changeTable(int index);
-  void addRow();
-  void acceptAll();
-  void deleteCurrentRow();
-  void rowUpdated(int row, QSqlRecord &record);
-
 private:
-  std::vector<QString> tables_en;
-  std::vector<QString> tables_ru;
-  std::vector<std::vector<QString>> ru_columns;
-  int sortOrder = 0;
-  qint64 secondsToString(qint64 seconds);
-  bool exists = false;
-  Ui::MainWindow *ui;
-  void keyPressEvent(QKeyEvent *event);
+  QPushButton *BROWSE_BUTTON;
+  QPushButton *OK_BUTTON;
+  QTableWidget *FILES_TABLE;
+  QLabel *FILES_DURATIONS;
+  QPushButton *RESET_BUTTON;
+  QPushButton *MODE_BUTTON;
+
+private slots:
+  void browseBtnEvent();
+  void okBtnEvent();
+  void resetBtnEvent();
+  void modeBtnEvent();
 };
 #endif // MAINWINDOW_H

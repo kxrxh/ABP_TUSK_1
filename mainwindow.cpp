@@ -1,283 +1,219 @@
-#include "./ui_mainwindow.h"
 #include "mainwindow.h"
+#include "fileduration.h"
+#include "functions.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
-  // setup names
-  tables_ru.push_back(QString("Пользователи"));
-  tables_ru.push_back(QString("Номенклатура"));
-  tables_ru.push_back(QString("Прайс по тарифам"));
-  tables_ru.push_back(QString("Станции"));
-  tables_ru.push_back(QString("Сотрудники"));
-  tables_ru.push_back(QString("Начало аренды"));
-  tables_ru.push_back(QString("Окончание аренды"));
-  tables_ru.push_back(QString("Оплата аренды"));
-  tables_ru.push_back(QString("Ввод в эксплуатацию товара"));
-  tables_ru.push_back(QString("Вывод из эксплуатации товара"));
-  tables_ru.push_back(QString("Изменение прайса"));
+struct Duration {
+  int sec = 0;
+  int min = 0;
+  int hour = 0;
+  //-------------------------------------------------------------------------------------------------------//
+  // Initializing fucntions for formating nums to format of <00:00:00>
+  std::string strsec() const { return to_format(sec); }
+  std::string strmin() const { return to_format(min); }
+  std::string strhour() const { return to_format(hour); }
+};
 
-  tables_en.push_back(QString("users"));
-  tables_en.push_back(QString("nomenclature"));
-  tables_en.push_back(QString("price"));
-  tables_en.push_back(QString("base"));
-  tables_en.push_back(QString("employees"));
-  tables_en.push_back(QString("rent_start"));
-  tables_en.push_back(QString("rent_finish"));
-  tables_en.push_back(QString("payment"));
-  tables_en.push_back(QString("birth"));
-  tables_en.push_back(QString("died"));
-  tables_en.push_back(QString("price_change"));
-  comboBox = new QComboBox(this);
-  for (int i = 0; i < tables_en.size(); ++i) {
-    comboBox->addItem(tables_ru[i]);
-  }
-  std::vector<QString> tmp;
-  tmp.push_back(QString("id"));
-  tmp.push_back(QString("Имя"));
-  tmp.push_back(QString("Фамилия"));
-  tmp.push_back(QString("Отчество"));
-  tmp.push_back(QString("Номер телефона"));
-  tmp.push_back(QString("Почта"));
-  tmp.push_back(QString("Дата рождения"));
-  tmp.push_back(QString("Статус"));
-  ru_columns.push_back(tmp);
-  tmp.clear();
-  tmp.push_back(QString("id"));
-  tmp.push_back(QString("Код"));
-  tmp.push_back(QString("Название"));
-  tmp.push_back(QString("Тип предмета"));
-  tmp.push_back(QString("Использование"));
-  tmp.push_back(QString("Дата ввода"));
-  tmp.push_back(QString("Дата вывода"));
-  ru_columns.push_back(tmp);
-  tmp.clear();
-  tmp.push_back(QString("id"));
-  tmp.push_back(QString("Наименование"));
-  tmp.push_back(QString("Цена"));
-  tmp.push_back(QString("Дата изменения"));
-  ru_columns.push_back(tmp);
-  tmp.clear();
-  tmp.push_back(QString("id"));
-  tmp.push_back(QString("Номер"));
-  tmp.push_back(QString("Наименование"));
-  tmp.push_back(QString("Адрес"));
-  tmp.push_back(QString("Почтовый индекс"));
-  tmp.push_back(QString("Координаты"));
-  ru_columns.push_back(tmp);
-  tmp.clear();
-  tmp.push_back(QString("id"));
-  tmp.push_back(QString("Имя"));
-  tmp.push_back(QString("Фамилия"));
-  tmp.push_back(QString("Отчество"));
-  tmp.push_back(QString("Номер телефона"));
-  tmp.push_back(QString("Почта"));
-  tmp.push_back(QString("Дата рождения"));
-  tmp.push_back(QString("Должность"));
-  ru_columns.push_back(tmp);
-  tmp.clear();
-  tmp.push_back(QString("id"));
-  tmp.push_back(QString("Время"));
-  tmp.push_back(QString("Пользователь"));
-  tmp.push_back(QString("Предмет"));
-  tmp.push_back(QString("Станция"));
-  tmp.push_back(QString("Станция"));
-  tmp.push_back(QString("Станция"));
-  tmp.push_back(QString("Станция"));
-  ru_columns.push_back(tmp);
-  tmp.clear();
-  tmp.push_back(QString("id"));
-  tmp.push_back(QString("Время"));
-  tmp.push_back(QString("Пользователь"));
-  tmp.push_back(QString("Предмет"));
-  tmp.push_back(QString("Станция"));
-  ru_columns.push_back(tmp);
-  tmp.clear();
-  tmp.push_back(QString("id"));
-  tmp.push_back(QString("Начало"));
-  tmp.push_back(QString("Пользователь"));
-  tmp.push_back(QString("Скидка"));
-  tmp.push_back(QString("Время аренды"));
-  tmp.push_back(QString("Сумма"));
-  tmp.push_back(QString("Предмет"));
-  tmp.push_back(QString("Тариф"));
-  ru_columns.push_back(tmp);
-  tmp.clear();
-  tmp.push_back(QString("id"));
-  tmp.push_back(QString("Артикул"));
-  tmp.push_back(QString("Дата"));
-  ru_columns.push_back(tmp);
-  tmp.clear();
-  tmp.push_back(QString("id"));
-  tmp.push_back(QString("Артикул"));
-  tmp.push_back(QString("Дата"));
-  ru_columns.push_back(tmp);
-  tmp.clear();
-  tmp.push_back(QString("id"));
-  tmp.push_back(QString("Дата"));
-  tmp.push_back(QString("Тип"));
-  tmp.push_back(QString("Новая цена"));
-  ru_columns.push_back(tmp);
-  tmp.clear(); // setup UI
-  ui->setupUi(this);
-  ui->verticalLayout->addWidget(comboBox);
-  connect(comboBox, SIGNAL(currentIndexChanged(int)), SLOT(changeTable(int)));
-  // setup database
-  QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-  db.setDatabaseName("main.db");
-  dbl = new DataBaseLib(db);
-  bool status = dbl->connect_to_base();
-  table = new QSqlRelationalTableModel(this);
-  openTable();
-  connect(ui->addButton, SIGNAL(clicked()), SLOT(addRow()),
+std::vector<std::string>
+    _FilesVector; // Creating std::vector<std::string> for randomizing order of
+                  // loaded videos by randomizing file names.
+Duration GENERAL_DURATION; // Creating a structure for getting sum of all video
+                           // durations.
+static bool _Order_Mode = 0; // 0: Sraight oder; 1: Random order.
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
+  // MainWindow setup
+  this->setFixedSize(500, 320);
+  this->setWindowTitle("VideoMaker [v1.42]");
+  //-------------------------------------------------------------------------------------------------------//
+  //"BROWSE" BUTTON setup.
+  BROWSE_BUTTON = new QPushButton("Browse", this);
+  BROWSE_BUTTON->move(10, 270);
+  BROWSE_BUTTON->resize(235, 40);
+  BROWSE_BUTTON->setToolTip("Browse video file");
+  connect(BROWSE_BUTTON, SIGNAL(clicked()), this, SLOT(browseBtnEvent()),
           Qt::UniqueConnection);
-  connect(ui->submitButton, SIGNAL(clicked()), SLOT(acceptAll()),
+  //-------------------------------------------------------------------------------------------------------//
+  // "OK" BUTTON setup.
+  OK_BUTTON = new QPushButton("Ok", this);
+  OK_BUTTON->setToolTip("Create a video");
+  OK_BUTTON->move(255, 270);
+  OK_BUTTON->resize(235, 40);
+  connect(OK_BUTTON, SIGNAL(clicked()), this, SLOT(okBtnEvent()),
           Qt::UniqueConnection);
-  connect(table, SIGNAL(beforeUpdate(int, QSqlRecord &)), this,
-          SLOT(rowUpdated(int, QSqlRecord &)));
-  if (!status) {
-    // TODO Error
+  //-------------------------------------------------------------------------------------------------------//
+  // "RESET" BUTTON setup.
+  RESET_BUTTON = new QPushButton("Reset", this);
+  RESET_BUTTON->setToolTip("Clear files table");
+  RESET_BUTTON->move(375, 245);
+  RESET_BUTTON->resize(115, 20);
+  connect(RESET_BUTTON, SIGNAL(clicked()), this, SLOT(resetBtnEvent()),
+          Qt::UniqueConnection);
+  //-------------------------------------------------------------------------------------------------------//
+  // "MODE" BUTTON setup.
+  MODE_BUTTON = new QPushButton("Straight order", this);
+  MODE_BUTTON->setToolTip(
+      "Change order mode (Current mode is <<Staright Mode>>)");
+  MODE_BUTTON->move(255, 245);
+  MODE_BUTTON->resize(115, 20);
+  connect(MODE_BUTTON, SIGNAL(clicked()), this, SLOT(modeBtnEvent()),
+          Qt::UniqueConnection);
+  //-------------------------------------------------------------------------------------------------------//
+  // QTableWidget with files list setup.
+  FILES_TABLE = new QTableWidget(this);
+  FILES_TABLE->move(10, 10);
+  FILES_TABLE->resize(480, 230);
+  FILES_TABLE->setColumnCount(3);
+  FILES_TABLE->horizontalHeader()->hide();
+  FILES_TABLE->setEditTriggers(QTableWidget::NoEditTriggers);
+  FILES_TABLE->setShowGrid(false);
+  // Changing font size.
+  QFont fnt = FILES_TABLE->font();
+  fnt.setPointSize(10);
+  FILES_TABLE->setFont(fnt);
+  // Setting resize policy.
+  FILES_TABLE->horizontalHeader()->setStretchLastSection(true);
+  FILES_TABLE->horizontalHeader()->setSectionResizeMode(
+      QHeaderView::ResizeToContents);
+  //-------------------------------------------------------------------------------------------------------//
+  // "General Duration" QLabel setup.
+  FILES_DURATIONS = new QLabel(this);
+  FILES_DURATIONS->move(10, 230);
+  FILES_DURATIONS->resize(200, 50);
+  FILES_DURATIONS->setText("Out file duration: 00:00:00");
+  // Changing font size.
+  fnt.setPointSize(12);
+  FILES_DURATIONS->setFont(fnt);
+}
+
+//-------------------------------------------------------------------------------------------------------//
+
+void MainWindow::okBtnEvent() {
+  QString outFileName = QFileDialog::getSaveFileName(this, tr("Save file"), "/",
+                                                     tr("Video File (*.mp4)"));
+  if (!outFileName.isEmpty()) {
+    if (_Order_Mode) // If _Order_Mode == 1 (Random order) then:
+    {
+      auto rng = std::mt19937(std::time(nullptr)); // Creating generator.
+      std::shuffle(std::begin(_FilesVector), std::end(_FilesVector),
+                   rng); // Randomizing order of videos.
+    }
+
+    std::ofstream outfile;
+    outfile.open("files.tmp");
+    for (auto &&data : _FilesVector)
+      outfile << data;
+    outfile.close();
+
+    // Creating video by running FFPROBE from cmd.
+    // Creating one big video file from clips (clip's names are insede
+    // files.txt)
+    const std::string cmd =
+        QString("ffmpeg -safe 0 -f concat -i files.tmp -c copy \"%1\"")
+            .arg(outFileName)
+            .toStdString();
+    system(cmd.c_str());
+
+    // Clearing QTableWidget
+    QAbstractItemModel *const table_model = FILES_TABLE->model();
+    table_model->removeRows(0, table_model->rowCount());
+
+    // Removing .tmp file with files names.
+    std::remove("files.tmp");
+    GENERAL_DURATION = {0, 0, 0};
+
+    // General duration zeroing
+    FILES_DURATIONS->setText("Out file duration: 00:00:00");
+
+    _FilesVector.clear();
   }
 }
 
-MainWindow::~MainWindow() { delete ui; }
+//-------------------------------------------------------------------------------------------------------//
 
-void MainWindow::openTable() {
-  table->setTable(currentTable);
-  updateTable();
+void MainWindow::resetBtnEvent() {
+  // Clearing QTableWidget
+  QAbstractItemModel *const table_model = FILES_TABLE->model();
+  table_model->removeRows(0, table_model->rowCount());
+
+  // Removing .tmp file with files names.
+  std::remove("files.tmp");
+  GENERAL_DURATION = {0, 0, 0};
+
+  // General duration
+  FILES_DURATIONS->setText("Out file duration: 00:00:00");
+
+  _FilesVector.clear();
 }
 
-void MainWindow::updateTable() {
-  table->setEditStrategy(QSqlTableModel::OnManualSubmit);
-  table->select();
-  // table->setTitles(dbl->get_titles(currentTable));
-  ui->tableView->setModel(table);
-  ui->tableView->resizeColumnsToContents();
-  ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked);
-  if (sortOrder)
-    ui->tableView->sortByColumn(sortedIndex, Qt::DescendingOrder);
-  else
-    ui->tableView->sortByColumn(sortedIndex, Qt::AscendingOrder);
-  for (int i = 0; i < ru_columns[currentTableIndex].size(); ++i) {
-    table->setHeaderData(i, Qt::Horizontal, ru_columns[currentTableIndex][i]);
-  }
-  setupTable();
-}
+//-------------------------------------------------------------------------------------------------------//
 
-void MainWindow::setupTable() {
-  switch (currentTableIndex) {
-  case 0:
-    table->setRelation(7, QSqlRelation("statuses", "id", "title")); // <-- Link
-    ui->tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(6, new DateDelegate());
-    ui->tableView->setItemDelegateForColumn(4, new Phonedelegate());
-    break;
-  case 1:
-    table->setRelation(3, QSqlRelation("nomenclature_type", "id", "title"));
-    ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(5, new DateDelegate(ui->tableView));
-    ui->tableView->setItemDelegateForColumn(6, new DateDelegate(ui->tableView));
-    table->setRelation(4, QSqlRelation("bool", "id", "title"));
-    ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
-    // ui->tableView->setItemDelegateForColumn(4, new BoolDelegator());
-    break;
-  case 2:
-    table->setRelation(1, QSqlRelation("nomenclature_type", "id", "title"));
-    ui->tableView->setItemDelegateForColumn(1, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(3, new DateDelegate(ui->tableView));
-    break;
-  case 4:
-    table->setRelation(7, QSqlRelation("positions", "id", "title"));
-    ui->tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(6, new DateDelegate(ui->tableView));
-    ui->tableView->setItemDelegateForColumn(4, new Phonedelegate());
-    break;
-  case 6:
-    currentTableIndex = 5;
-  case 5:
-    table->setRelation(2, QSqlRelation("users", "id", "name"));
-    ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
-    table->setRelation(3, QSqlRelation("nomenclature", "id", "code"));
-    ui->tableView->setItemDelegateForColumn(3, new QSqlRelationalDelegate());
-    table->setRelation(4, QSqlRelation("base", "id", "number"));
-    ui->tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(1, new TimeDelegate());
-    break;
-  case 7:
-    ui->tableView->setItemDelegateForColumn(1, new TimeDelegate());
-    table->setRelation(2, QSqlRelation("users", "id", "mail"));
-    table->setRelation(6, QSqlRelation("nomenclature", "id", "code"));
-    ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(6, new QSqlRelationalDelegate());
-    break;
-  case 8:
-    currentTableIndex = 9;
-  case 9:
-    table->setRelation(2, QSqlRelation("nomenclature", "id", "code"));
-    ui->tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
-    ui->tableView->setItemDelegateForColumn(2, new DateDelegate());
-    break;
-  default:
-    break;
+void MainWindow::modeBtnEvent() {
+  if (_Order_Mode) {
+    _Order_Mode = 0;
+    MODE_BUTTON->setText("Straight order");
+    MODE_BUTTON->setToolTip(
+        "Change order mode (Current mode is <<Staright Mode>>)");
+  } else {
+    _Order_Mode = 1;
+    MODE_BUTTON->setText("Random order");
+    MODE_BUTTON->setToolTip(
+        "Change order mode (Current mode is <<Random Mode>>)");
   }
 }
 
-void MainWindow::changeTable(int index) {
-  currentTable = tables_en[index];
-  currentTableIndex = index;
-  openTable();
-}
+//-------------------------------------------------------------------------------------------------------//
 
-void MainWindow::addRow() {
-  int row = table->rowCount();
-  table->insertRow(row);
-}
-
-void MainWindow::acceptAll() {
-  qDebug() << "accpet";
-  table->submitAll();
-  updateTable();
-}
-
-void MainWindow::deleteCurrentRow() {
-  QItemSelectionModel *select = ui->tableView->selectionModel();
-  for (const QModelIndex &selected : select->selectedRows()) {
-    table->removeRow(selected.row());
-    table->submitAll();
-  }
-  table->select();
-}
-
-void MainWindow::keyPressEvent(QKeyEvent *event) {
-  if (event->key() == Qt::Key_Delete) {
-    deleteCurrentRow();
-  }
-}
-
-qint64 MainWindow::secondsToString(qint64 seconds) { return seconds / 86400; }
-
-void MainWindow::rowUpdated(int row, QSqlRecord &record) {
-  switch (currentTableIndex) {
-  case 1: {
-    qDebug() << "case: 1";
-    QString diedDate = record.value(6).toString();
-    QString birthDate = record.value(5).toString();
-    int id = record.value(0).toInt();
-    dbl->update_birth_and_died(id, diedDate, birthDate);
-    break;
-  }
-  case 2: {
-    qDebug() << "case: 2";
-    // ТУТ НАЧАЛО
-    QString lastChangeDate = record.value(3).toString();
-    QString currDate = QDate::currentDate().toString("dd.MM.yyyy");
-    QDateTime a = QDateTime::fromString(lastChangeDate, "dd.MM.yyyy");
-    QDateTime b = QDateTime::fromString(currDate, "dd.MM.yyyy");
-    qint64 d = secondsToString(a.secsTo(b)); // ПОЛУЧЕНИЕ РАЗНИЦЫ В ДНЯХ
-    int newValueOfPrice = record.value(2).toInt();
-    QString productTitle = record.value(1).toString();
-    int productType =
-        dbl->get_id_from_value("nomenclature_type", productTitle).toInt();
-    dbl->update_price_change(productType, newValueOfPrice, currDate);
-  }
+void MainWindow::browseBtnEvent() {
+  QStringList FILES = QFileDialog::getOpenFileNames(
+      this, tr("Choose video files"), "/", tr("Video File (*.mp4)"));
+  if (FILES.size()) {
+    for (auto &&path : FILES) {
+      // Writing paths to file.
+      std::string pathToFile = ReplaceAll(path.toStdString(), std::string("'"),
+                                          std::string("'\\''"));
+      std::string ss = "";
+      ss += "file '";
+      ss += pathToFile;
+      ss += "'\n";
+      _FilesVector.push_back(ss);
+      //-------------------------------------------------------------------------------------------------------//
+      // Getting file size.
+      QFileInfo fi(path);
+      QString FileName = fi.fileName();
+      QString FileSize = QString("%1 Mb").arg(
+          QString::number(round_up(fi.size() / pow(1024, 2), 2)));
+      //-------------------------------------------------------------------------------------------------------//
+      // Getting video file duration.
+      int FileDurationSec;
+      getVideoDuration((char *)path.toStdString().c_str(),
+                       FileDurationSec); // Getting video duration.
+      Duration *FDURATION = new Duration{
+          FileDurationSec % 60, FileDurationSec / 60, FileDurationSec / 360};
+      GENERAL_DURATION.sec += FDURATION->sec;
+      GENERAL_DURATION.min += FDURATION->min;
+      GENERAL_DURATION.hour += FDURATION->hour;
+      timeFormat(GENERAL_DURATION);
+      QString FILE_DURATION = QString("%1:%2:%3")
+                                  .arg(QString::fromUtf8(FDURATION->strhour()),
+                                       QString::fromUtf8(FDURATION->strmin()),
+                                       QString::fromUtf8(FDURATION->strsec()));
+      //-------------------------------------------------------------------------------------------------------//
+      // Filling the table.
+      FILES_TABLE->setRowCount(FILES_TABLE->rowCount() + 1);
+      FILES_DURATIONS->setText(
+          QString("Out file duration: %1:%2:%3")
+              .arg(QString::fromUtf8(GENERAL_DURATION.strhour()),
+                   QString::fromUtf8(GENERAL_DURATION.strmin()),
+                   QString::fromUtf8(GENERAL_DURATION.strsec())));
+      FILES_TABLE->setItem(FILES_TABLE->rowCount() - 1, 0,
+                           new QTableWidgetItem(FileName));
+      FILES_TABLE->setItem(FILES_TABLE->rowCount() - 1, 1,
+                           new QTableWidgetItem(FileSize));
+      FILES_TABLE->setItem(FILES_TABLE->rowCount() - 1, 2,
+                           new QTableWidgetItem(FILE_DURATION));
+      //-------------------------------------------------------------------------------------------------------//
+      // Memory cleaning.
+      delete FDURATION;
+    }
   }
 }
+MainWindow::~MainWindow() {}
