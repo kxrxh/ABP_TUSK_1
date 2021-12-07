@@ -1,13 +1,14 @@
-#ifndef TIMEDELEGATE_H
-#define TIMEDELEGATE_H
+#ifndef PHONEDELEGATE_H
+#define PHONEDELEGATE_H
 
-#include <QStyledItemDelegate>
-#include <QTimeEdit>
+#include <QItemDelegate>
+#include <QLineEdit>
+#include <QObject>
 
-class TimeDelegate : public QStyledItemDelegate {
+class Phonedelegate : public QItemDelegate {
   Q_OBJECT
 public:
-  TimeDelegate(QObject *parent = 0);
+  Phonedelegate(QObject *parent = 0);
 
   QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                         const QModelIndex &index) const;
@@ -22,11 +23,6 @@ public:
 
   QString displayText(const QVariant &value, const QLocale &locale) const;
 
-  mutable QTimeEdit *dataTimeEdit;
-
 public slots:
-
-  void setData(QTime val);
 };
-
-#endif
+#endif // PHONEDELEGATE_H

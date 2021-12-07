@@ -19,12 +19,12 @@ set(PROJECT_SOURCES
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
-    # table/table.h
-    # table/table.cpp
     delegators/datedelegate.h
     delegators/timedelegate.h
     delegators/datedelegate.cpp
     delegators/timedelegate.cpp
+		delegators/phonedelegate.h
+		delegators/phonedelegate.cpp
     databaselib.h
     databaselib.cpp
     ui_mainwindow.h
@@ -47,3 +47,4 @@ else()
 endif()
 
 target_link_libraries(ABS_TUSK_1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql  Qt${QT_VERSION_MAJOR}::Core)
+set_target_properties(ABS_TUSK_1 PROPERTIES LINK_FLAGS "-mwindows")
