@@ -53,7 +53,6 @@ private:
   std::vector<QString> tables_ru;
   std::vector<std::vector<QString>> ru_columns;
   int sortOrder = 0;
-  qint64 secondsToString(qint64 seconds);
   bool exists = false;
   Ui::MainWindow *ui;
   void keyPressEvent(QKeyEvent *event);

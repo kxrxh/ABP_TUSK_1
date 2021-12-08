@@ -3,7 +3,6 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
-  // setup names
   tables_ru.push_back(QString("Пользователи"));
   tables_ru.push_back(QString("Номенклатура"));
   tables_ru.push_back(QString("Прайс по тарифам"));
@@ -156,7 +155,6 @@ void MainWindow::updateTable() {
   setupTable();
   table->setEditStrategy(QSqlTableModel::OnManualSubmit);
   table->select();
-  // table->setTitles(dbl->get_titles(currentTable));
   tableView->setModel(table);
   tableView->resizeColumnsToContents();
   tableView->setEditTriggers(QAbstractItemView::DoubleClicked);
@@ -172,7 +170,7 @@ void MainWindow::updateTable() {
 void MainWindow::setupTable() {
   switch (currentTableIndex) {
   case 0:
-    table->setRelation(7, QSqlRelation("statuses", "id", "title")); // <-- Link
+    table->setRelation(7, QSqlRelation("statuses", "id", "title"));
     tableView->setItemDelegateForColumn(7, new QSqlRelationalDelegate());
     tableView->setItemDelegateForColumn(6, new DateDelegate());
     tableView->setItemDelegateForColumn(4, new Phonedelegate());
@@ -184,7 +182,6 @@ void MainWindow::setupTable() {
     tableView->setItemDelegateForColumn(6, new DateDelegate(tableView));
     table->setRelation(4, QSqlRelation("bool", "id", "title"));
     tableView->setItemDelegateForColumn(4, new QSqlRelationalDelegate());
-    // tableView->setItemDelegateForColumn(4, new BoolDelegator());
     break;
   case 2:
     table->setRelation(1, QSqlRelation("nomenclature_type", "id", "title"));
@@ -222,6 +219,10 @@ void MainWindow::setupTable() {
     tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
     tableView->setItemDelegateForColumn(2, new DateDelegate());
     break;
+  case 10:
+    table->setRelation(2, QSqlRelation("nomenclature_type", "id", "title"));
+    tableView->setItemDelegateForColumn(2, new QSqlRelationalDelegate());
+    break;
   default:
     break;
   }
@@ -239,7 +240,6 @@ void MainWindow::addRow() {
 }
 
 void MainWindow::acceptAll() {
-  qDebug() << "accpet";
   table->submitAll();
   updateTable();
 }
@@ -259,12 +259,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
   }
 }
 
-qint64 MainWindow::secondsToString(qint64 seconds) { return seconds / 86400; }
-
 void MainWindow::rowUpdated(int row, QSqlRecord &record) {
   switch (currentTableIndex) {
   case 1: {
-    qDebug() << "case: 1";
     QString diedDate = record.value(6).toString();
     QString birthDate = record.value(5).toString();
     int id = record.value(0).toInt();
@@ -272,12 +269,7 @@ void MainWindow::rowUpdated(int row, QSqlRecord &record) {
     break;
   }
   case 2: {
-    // ТУТ НАЧАЛО
-    QString lastChangeDate = record.value(3).toString();
     QString currDate = QDate::currentDate().toString("dd.MM.yyyy");
-    QDateTime a = QDateTime::fromString(lastChangeDate, "dd.MM.yyyy");
-    QDateTime b = QDateTime::fromString(currDate, "dd.MM.yyyy");
-    qint64 d = secondsToString(a.secsTo(b)); // ПОЛУЧЕНИЕ РАЗНИЦЫ В ДНЯХ
     int newValueOfPrice = record.value(2).toInt();
     QString productTitle = record.value(1).toString();
     int productType =

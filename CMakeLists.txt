@@ -29,21 +29,22 @@ set(PROJECT_SOURCES
     databaselib.cpp
     ui_mainwindow.h
 )
-
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(ABS_TUSK_1
-        ${PROJECT_SOURCES}
-    )
+	 set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/ABS_TUSK_1.rc")
+		qt_add_executable(ABS_TUSK_1
+				${PROJECT_SOURCES}
+				${APP_ICON_RESOURCE_WINDOWS})
 else()
-    if(ANDROID)
-        add_library(ABS_TUSK_1 SHARED
-            ${PROJECT_SOURCES}
-        )
-    else()
-        add_executable(ABS_TUSK_1
-            ${PROJECT_SOURCES}
-        )
-    endif()
+		if(ANDROID)
+				add_library(ABS_TUSK_1 SHARED
+						${PROJECT_SOURCES}
+				)
+		else()
+				add_executable(ABS_TUSK_1
+						${PROJECT_SOURCES}
+				)
+		endif()
 endif()
-
 target_link_libraries(ABS_TUSK_1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql  Qt${QT_VERSION_MAJOR}::Core)
+set_target_properties(ABS_TUSK_1 PROPERTIES LINK_FLAGS "-mwindows")
+
